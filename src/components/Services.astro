@@ -6,14 +6,14 @@ import { services, WHATSAPP_NUMBER } from '../data/services';
 <section class="services" id="servicios" aria-labelledby="services-title">
   <div class="container">
     <div class="section-head reveal">
-      <span class="label">NUESTROS SERVICIOS</span>
-      <div class="section-head__row">
+      <div>
+        <span class="label">NUESTROS SERVICIOS</span>
         <h2 class="section-head__title" id="services-title">Soluciones visuales para cada necesidad.</h2>
-        <div class="bauhaus-dots" aria-hidden="true">
-          <span style="background:var(--red)"></span>
-          <span style="background:var(--yellow)"></span>
-          <span style="background:var(--blue)"></span>
-        </div>
+      </div>
+      <div class="bauhaus-dots" aria-hidden="true">
+        <span style="background:var(--red)"></span>
+        <span style="background:var(--yellow)"></span>
+        <span style="background:var(--blue)"></span>
       </div>
     </div>
     
@@ -22,6 +22,7 @@ import { services, WHATSAPP_NUMBER } from '../data/services';
         const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${service.buttonMessage}`;
         return (
           <article class="service-card reveal" aria-labelledby={`srv-${service.id}-title`}>
+            <!-- Cabecera de Tarjeta con Imagen Temática Dedicada -->
             <div class="service-card__img-wrap">
               <img 
                 src={service.image} 
@@ -29,28 +30,94 @@ import { services, WHATSAPP_NUMBER } from '../data/services';
                 class="service-card__img" 
                 loading="lazy" 
               />
+              <div class="service-card__img-overlay"></div>
+              
               <span class="service-card__num" style={`color:${service.numberColor}`}>
                 {service.number}
               </span>
+
+              <!-- Icono Bauhaus Interactivo con Animación al Clic -->
+              <button 
+                type="button" 
+                class="service-card__icon-btn" 
+                aria-label={`Ver información de ${service.title}`}
+                data-service-id={service.id}
+                title="Toca para interactuar"
+              >
+                {service.iconType === 'camera' && (
+                  <svg viewBox="0 0 24 24" class="service-card__icon-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                  </svg>
+                )}
+                {service.iconType === 'commercial' && (
+                  <svg viewBox="0 0 24 24" class="service-card__icon-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 21h18"></path>
+                    <path d="M5 21V7l8-4v18"></path>
+                    <path d="M19 21V11l-6-3"></path>
+                    <path d="M9 9v.01"></path>
+                    <path d="M9 12v.01"></path>
+                    <path d="M9 15v.01"></path>
+                  </svg>
+                )}
+                {service.iconType === 'digital' && (
+                  <svg viewBox="0 0 24 24" class="service-card__icon-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <circle cx="17.5" cy="6.5" r="1.5"></circle>
+                  </svg>
+                )}
+                {service.iconType === 'drone' && (
+                  <svg viewBox="0 0 24 24" class="service-card__icon-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M10 10l-5 -5"></path>
+                    <path d="M14 10l5 -5"></path>
+                    <path d="M10 14l-5 5"></path>
+                    <path d="M14 14l5 5"></path>
+                    <circle cx="5" cy="5" r="2"></circle>
+                    <circle cx="19" cy="5" r="2"></circle>
+                    <circle cx="5" cy="19" r="2"></circle>
+                    <circle cx="19" cy="19" r="2"></circle>
+                  </svg>
+                )}
+                {service.iconType === 'video' && (
+                  <svg viewBox="0 0 24 24" class="service-card__icon-svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                  </svg>
+                )}
+              </button>
             </div>
+
+            <!-- Cuerpo de la Tarjeta con Textos Claros y Prestaciones -->
             <div class="service-card__body">
+              <span class="service-card__cat-tag">{service.category}</span>
               <h3 class="service-card__title" id={`srv-${service.id}-title`}>
                 {service.title}
               </h3>
               <ul class="service-card__list">
                 {service.features.map((feature) => (
-                  <li>{feature}</li>
+                  <li>
+                    <span class="service-card__list-bullet" aria-hidden="true"></span>
+                    <span>{feature}</span>
+                  </li>
                 ))}
               </ul>
+
+              <!-- Botón Interactivo con Efecto Ripple Líquido y Transición Suave -->
               <a 
                 href={waLink} 
                 target="_blank" 
                 rel="noopener noreferrer" 
-                class="service-card__btn" 
+                class="service-card__btn interactive-ripple-btn" 
                 id={`srv-${service.id}-btn`}
                 aria-label={`${service.buttonText} para ${service.title}`}
               >
-                {service.buttonText}
+                <span class="service-card__btn-text">{service.buttonText}</span>
+                <svg class="service-card__btn-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
               </a>
             </div>
           </article>
@@ -59,3 +126,61 @@ import { services, WHATSAPP_NUMBER } from '../data/services';
     </div>
   </div>
 </section>
+
+<script>
+  // Script de Animación Especial y Fluida al hacer clic en Iconos y Botones de Servicios
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Animación fluida para los botones de llamada a la acción (.interactive-ripple-btn)
+    const rippleButtons = document.querySelectorAll('.service-card__btn');
+    rippleButtons.forEach((btn) => {
+      btn.addEventListener('click', function (e) {
+        const target = this as HTMLElement;
+        const rect = target.getBoundingClientRect();
+        const mouseEvent = e as MouseEvent;
+        const x = mouseEvent.clientX - rect.left;
+        const y = mouseEvent.clientY - rect.top;
+
+        // Crear la onda de onda líquida (ripple)
+        const ripple = document.createElement('span');
+        ripple.className = 'btn-fluid-ripple';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+
+        target.appendChild(ripple);
+
+        // Feedback elástico de pulsación
+        target.classList.add('btn-clicked');
+        setTimeout(() => {
+          ripple.remove();
+          target.classList.remove('btn-clicked');
+        }, 650);
+      });
+    });
+
+    // 2. Animación elástica especial y rebote 3D al hacer clic en los iconos (.service-card__icon-btn)
+    const iconButtons = document.querySelectorAll('.service-card__icon-btn');
+    iconButtons.forEach((iconBtn) => {
+      iconBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = this as HTMLElement;
+        target.classList.remove('icon-popping');
+        // Forzar reflow para reiniciar la animación
+        void target.offsetWidth;
+        target.classList.add('icon-popping');
+
+        // Efecto de pulso en la tarjeta entera
+        const card = target.closest('.service-card');
+        if (card) {
+          card.classList.add('card-highlight-pulse');
+          setTimeout(() => {
+            card.classList.remove('card-highlight-pulse');
+          }, 800);
+        }
+
+        setTimeout(() => {
+          target.classList.remove('icon-popping');
+        }, 700);
+      });
+    });
+  });
+</script>
