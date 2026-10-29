@@ -1,0 +1,50 @@
+---
+// src/components/Packages.astro
+import { packages } from '../data/testimonials';
+import { WHATSAPP_NUMBER } from '../data/services';
+---
+
+<section class="packages" id="paquetes" aria-labelledby="packages-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="label">PAQUETES Y PROMOCIONES</span>
+      <h2 class="section-head__title" id="packages-title">Una propuesta hecha para ti.</h2>
+      <p class="packages__notice">
+        El alcance final depende de las necesidades de cada cliente. Contáctanos para recibir una propuesta personalizada.
+      </p>
+    </div>
+
+    <div class="packages__grid">
+      {packages.map((pkg) => {
+        const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${pkg.buttonMessage}`;
+        const isFeatured = pkg.featured;
+        return (
+          <article 
+            class={`package-card ${isFeatured ? 'package-card--featured' : ''} reveal`} 
+            aria-labelledby={`pkg-${pkg.id}-title`}
+          >
+            <div class="package-card__accent" style={`background:${pkg.accentColor}`}></div>
+            <span class="package-card__tag">{pkg.tag}</span>
+            <h3 class="package-card__title" id={`pkg-${pkg.id}-title`}>
+              {pkg.title}
+            </h3>
+            <ul class="package-card__list">
+              {pkg.features.map((feature) => (
+                <li>{feature}</li>
+              ))}
+            </ul>
+            <a 
+              href={waLink} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class={`btn ${isFeatured ? 'btn--red' : 'btn--outline'} pkg-btn`} 
+              id={`pkg-${pkg.id}-btn`}
+            >
+              {pkg.buttonText}
+            </a>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+</section>

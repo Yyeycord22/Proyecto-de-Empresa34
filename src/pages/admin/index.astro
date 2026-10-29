@@ -1,0 +1,1002 @@
+---
+// src/pages/admin/index.astro
+import { portfolioItems as initialPortfolioItems, portfolioFilters as initialFilters } from '../../data/projects';
+import { services as initialServices, WHATSAPP_NUMBER, INSTAGRAM_URL } from '../../data/services';
+import { packages } from '../../data/testimonials';
+
+const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración — HAUS COMMUNITY FOTOGRAFÍA</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #F01824;
+      --yellow: #FFD21A;
+      --blue: #064EDB;
+      --black: #111111;
+      --ivory: #F7F5EF;
+      --white: #FFFFFF;
+      --gray-1: #181818;
+      --gray-2: #282828;
+      --gray-3: #8E8E93;
+      --gray-4: #E5E5EA;
+      --font: 'Space Grotesk', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font); background: var(--black); color: var(--white); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: var(--font); cursor: pointer; }
+    :focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+
+    /* AUTH LOGIN SCREEN */
+    #auth-gate {
+      position: fixed; inset: 0; z-index: 999;
+      background: rgba(17, 17, 17, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .login-card {
+      width: 100%; max-width: 440px;
+      background: var(--gray-1);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 4px; padding: 2.75rem 2.25rem;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 210, 26, 0.25);
+      text-align: center;
+      position: relative;
+    }
+    .login-logo {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 2px solid var(--yellow); object-fit: cover;
+      margin: 0 auto 1.25rem; display: block;
+      box-shadow: 0 0 20px rgba(255, 210, 26, 0.35);
+    }
+    .login-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.85rem; color: var(--white); margin-bottom: 0.35rem;
+    }
+    .login-subtitle {
+      font-size: 0.85rem; color: rgba(255, 255, 255, 0.6); margin-bottom: 2rem;
+    }
+    .login-alert {
+      background: rgba(240, 24, 36, 0.18);
+      border: 1px solid rgba(240, 24, 36, 0.45);
+      color: #ff999f; padding: 0.8rem; border-radius: 2px;
+      font-size: 0.85rem; margin-bottom: 1.25rem; display: none;
+    }
+    .login-input {
+      width: 100%; background: #222; border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--white); padding: 0.85rem 1rem; border-radius: 2px;
+      font-size: 0.95rem; margin-bottom: 1rem; font-family: var(--font);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .login-input:focus {
+      outline: none; border-color: var(--yellow); box-shadow: 0 0 0 2px rgba(255, 210, 26, 0.2);
+    }
+    .login-btn {
+      width: 100%; padding: 0.9rem; background: var(--red);
+      color: var(--white); font-weight: 700; font-size: 0.95rem;
+      border: none; border-radius: 2px; cursor: pointer; transition: all 0.2s;
+      margin-top: 0.5rem;
+    }
+    .login-btn:hover { background: #c5121c; transform: translateY(-1px); }
+    .login-hint {
+      margin-top: 1.5rem; font-size: 0.76rem; color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* ADMIN DASHBOARD LAYOUT */
+    .admin-layout { display: flex; flex: 1; min-height: 100vh; }
+    .sidebar {
+      width: 260px; background: var(--gray-1); display: flex; flex-direction: column;
+      padding: 1.5rem 1rem; gap: 0.35rem; border-right: 1px solid rgba(255, 255, 255, 0.08); flex-shrink: 0;
+    }
+    .sidebar__brand {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.65rem; margin-bottom: 1.25rem;
+    }
+    .sidebar__logo-img {
+      width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--yellow); object-fit: cover;
+    }
+    .sidebar__brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+    .sidebar__brand-name { font-size: 0.88rem; font-weight: 700; color: var(--white); }
+    .sidebar__brand-role { font-size: 0.65rem; letter-spacing: 0.14em; color: var(--yellow); text-transform: uppercase; }
+    
+    .sidebar__link {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 0.85rem;
+      border-radius: 2px; font-size: 0.86rem; font-weight: 500; color: rgba(255, 255, 255, 0.65);
+      transition: all 0.2s; border: none; background: none; width: 100%; text-align: left; cursor: pointer;
+    }
+    .sidebar__link:hover { background: rgba(255, 255, 255, 0.06); color: var(--white); }
+    .sidebar__link.active { background: var(--red); color: var(--white); font-weight: 600; }
+    .sidebar__icon { width: 18px; height: 18px; flex-shrink: 0; }
+    .sidebar__sep { height: 1px; background: rgba(255, 255, 255, 0.08); margin: 0.75rem 0; }
+    .sidebar__btn-logout {
+      margin-top: auto; color: #ff8c94; font-size: 0.82rem; font-weight: 600;
+      border: 1px solid rgba(240, 24, 36, 0.3); justify-content: center; border-radius: 2px;
+    }
+    .sidebar__btn-logout:hover { background: var(--red); color: var(--white); }
+    .sidebar__btn-live {
+      color: var(--yellow); font-size: 0.82rem; font-weight: 600;
+      border: 1px solid rgba(255, 210, 26, 0.3); justify-content: center; border-radius: 2px; margin-top: 0.4rem;
+    }
+    .sidebar__btn-live:hover { background: var(--yellow); color: var(--black); }
+
+    /* MAIN CONTENT */
+    .admin-main { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+    .admin-topbar {
+      background: rgba(24, 24, 24, 0.85); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1.1rem 2.25rem; display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .admin-topbar h1 { font-size: 1.15rem; font-weight: 700; display: flex; align-items: center; gap: 0.75rem; }
+    .topbar-badge { font-size: 0.72rem; background: var(--blue); color: #fff; padding: 0.2rem 0.6rem; border-radius: 2px; text-transform: uppercase; font-weight: 600; }
+    .admin-content { padding: 2.5rem 2.25rem; max-width: 1100px; width: 100%; margin: 0 auto; }
+
+    /* PANELS */
+    .panel { display: none; }
+    .panel.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* CARDS */
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem; }
+    .stat-card {
+      background: var(--gray-1); border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1.6rem; display: flex; flex-direction: column; gap: 0.4rem; position: relative; border-radius: 2px;
+    }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--red); }
+    .stat-card:nth-child(2)::before { background: var(--yellow); }
+    .stat-card:nth-child(3)::before { background: var(--blue); }
+    .stat-card:nth-child(4)::before { background: #25D366; }
+    .stat-card__num { font-size: 2.3rem; font-weight: 700; font-family: 'DM Serif Display', serif; }
+    .stat-card__label { font-size: 0.75rem; color: var(--gray-3); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+
+    /* SECTION TITLE */
+    .admin-sec-title {
+      font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; justify-content: space-between;
+    }
+
+    /* NOTICE */
+    .admin-notice {
+      background: rgba(255, 210, 26, 0.06); border: 1px solid rgba(255, 210, 26, 0.3);
+      padding: 1.25rem 1.5rem; border-radius: 2px; margin-bottom: 2rem; font-size: 0.9rem; line-height: 1.65;
+    }
+    .admin-notice strong { color: var(--yellow); }
+
+    /* TABLES */
+    .admin-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; margin-bottom: 2rem; }
+    .admin-table th, .admin-table td { padding: 0.9rem 1rem; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+    .admin-table th { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gray-3); font-weight: 600; background: rgba(0,0,0,0.3); }
+    .admin-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    .badge { display: inline-block; padding: 0.25rem 0.6rem; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 2px; }
+    .badge--visible { background: rgba(6, 78, 219, 0.25); color: #7eb0ff; border: 1px solid rgba(6, 78, 219, 0.4); }
+    .badge--pending { background: rgba(240, 24, 36, 0.25); color: #ff8c94; border: 1px solid rgba(240, 24, 36, 0.4); }
+    .badge--success { background: rgba(37, 211, 102, 0.2); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.3); }
+
+    /* FORMS */
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label { display: block; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; color: rgba(255,255,255,0.8); }
+    .form-input, .form-select, .form-textarea {
+      width: 100%; background: #222; border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--white); padding: 0.8rem 1rem; font-family: var(--font); font-size: 0.92rem;
+      border-radius: 2px; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(6, 78, 219, 0.25); }
+    .form-textarea { min-height: 110px; resize: vertical; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+    /* BUTTONS */
+    .btn-admin {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1.5rem; font-family: var(--font); font-weight: 600; font-size: 0.88rem;
+      border: none; border-radius: 2px; cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .btn-admin--red { background: var(--red); color: #fff; }
+    .btn-admin--red:hover { background: #c5121c; transform: translateY(-1px); }
+    .btn-admin--blue { background: var(--blue); color: #fff; }
+    .btn-admin--blue:hover { background: #0540b8; }
+    .btn-admin--yellow { background: var(--yellow); color: var(--black); }
+    .btn-admin--yellow:hover { background: #e5bc10; }
+    .btn-admin--outline { background: transparent; color: var(--white); border: 1px solid rgba(255, 255, 255, 0.2); }
+    .btn-admin--outline:hover { border-color: var(--white); background: rgba(255,255,255,0.06); }
+    .btn-admin--danger { background: rgba(240, 24, 36, 0.2); color: #ff8c94; border: 1px solid rgba(240, 24, 36, 0.4); padding: 0.35rem 0.65rem; font-size: 0.75rem; }
+    .btn-admin--danger:hover { background: var(--red); color: #fff; }
+
+    /* UPLOAD ZONE */
+    .upload-zone {
+      border: 2px dashed rgba(255, 255, 255, 0.2); border-radius: 2px; padding: 2.25rem 2rem;
+      text-align: center; cursor: pointer; transition: all 0.2s; display: block; background: rgba(255,255,255,0.02);
+    }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--yellow); background: rgba(255, 210, 26, 0.05); }
+    .upload-zone__icon { font-size: 2.2rem; margin-bottom: 0.75rem; }
+    .upload-zone__label { font-size: 0.92rem; color: rgba(255,255,255,0.75); margin-bottom: 0.35rem; font-weight: 500; }
+    .upload-zone__hint { font-size: 0.78rem; color: var(--gray-3); }
+    .upload-zone input[type="file"] { display: none; }
+
+    /* IMAGE GALLERY GRID */
+    .img-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+    .img-thumb { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--gray-1); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 2px; }
+    .img-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .img-thumb:hover img { transform: scale(1.05); }
+    .img-thumb__cat {
+      position: absolute; top: 0.5rem; left: 0.5rem;
+      background: var(--blue); color: #fff; font-size: 0.68rem;
+      padding: 0.2rem 0.5rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600;
+    }
+    .img-thumb__actions {
+      position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.85);
+      padding: 0.5rem; display: flex; gap: 0.4rem; justify-content: flex-end;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .img-thumb:hover .img-thumb__actions { opacity: 1; }
+
+    /* CODE SNIPPET OUTPUT */
+    .code-box {
+      background: #1e1e1e; padding: 1.25rem; border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 2px; overflow-x: auto; font-family: monospace; font-size: 0.85rem; line-height: 1.6; color: #a6e22e;
+    }
+
+    @media (max-width: 768px) {
+      .admin-layout { flex-direction: column; }
+      .sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+      .form-row { grid-template-columns: 1fr; }
+      .admin-content { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PANTALLA DE ACCESO OBLIGATORIA (LOGIN GUARD) -->
+<div id="auth-gate">
+  <div class="login-card">
+    <img 
+      src="/imagenes/592403512_18033143426770155_1529202580814031402_n.jpg" 
+      alt="HAUS COMMUNITY FOTOGRAFÍA" 
+      class="login-logo" 
+    />
+    <h2 class="login-title">Panel de Control</h2>
+    <p class="login-subtitle">Ingresa tus credenciales autorizadas de administrador</p>
+    
+    <div class="login-alert" id="login-error-msg">
+      Usuario o contraseña incorrectos. Intente nuevamente.
+    </div>
+
+    <form id="admin-login-form">
+      <div style="text-align: left; margin-bottom: 0.4rem;">
+        <label class="form-label" for="login-username">Usuario</label>
+        <input 
+          type="text" 
+          id="login-username" 
+          class="login-input" 
+          placeholder="Ej: administrador" 
+          required 
+          autocomplete="username" 
+        />
+      </div>
+
+      <div style="text-align: left; margin-bottom: 1.25rem;">
+        <label class="form-label" for="login-password">Contraseña</label>
+        <input 
+          type="password" 
+          id="login-password" 
+          class="login-input" 
+          placeholder="••••••" 
+          required 
+          autocomplete="current-password" 
+        />
+      </div>
+
+      <button type="submit" class="login-btn">
+        Iniciar Sesión en Studio
+      </button>
+    </form>
+
+    <p class="login-hint">
+      HAUS COMMUNITY FOTOGRAFÍA · Mindo & Los Bancos
+    </p>
+  </div>
+</div>
+
+<!-- PANEL DE ADMINISTRACIÓN -->
+<div class="admin-layout" id="admin-dashboard-root" style="display: none;">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" role="navigation" aria-label="Navegación del panel de administración">
+    <div class="sidebar__brand">
+      <img src="/imagenes/592403512_18033143426770155_1529202580814031402_n.jpg" alt="HAUS Logo" class="sidebar__logo-img" />
+      <div class="sidebar__brand-text">
+        <span class="sidebar__brand-name">HAUS STUDIO</span>
+        <span class="sidebar__brand-role">ADMINISTRADOR</span>
+      </div>
+    </div>
+
+    <button class="sidebar__link active" onclick="showPanel('dashboard')" id="nav-dashboard">
+      <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </button>
+    <button class="sidebar__link" onclick="showPanel('categorias')" id="nav-categorias">
+      <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18"/></svg>
+      Gestión de Categorías
+    </button>
+    <button class="sidebar__link" onclick="showPanel('imagenes')" id="nav-imagenes">
+      <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      Portafolio & Fotografías
+    </button>
+    <button class="sidebar__link" onclick="showPanel('subir')" id="nav-subir">
+      <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Añadir Nueva Foto
+    </button>
+    <button class="sidebar__link" onclick="showPanel('contacto')" id="nav-contacto">
+      <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      Contacto & Redes
+    </button>
+    <button class="sidebar__link" onclick="showPanel('proyectos')" id="nav-proyectos">
+      <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      Casos de Proyectos
+    </button>
+    <button class="sidebar__link" onclick="showPanel('servicios')" id="nav-servicios">
+      <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Servicios Activos
+    </button>
+
+    <div class="sidebar__sep"></div>
+
+    <a href="/" class="sidebar__link sidebar__btn-live" target="_blank" rel="noopener noreferrer">
+      <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      Ver sitio web en vivo
+    </a>
+
+    <button type="button" class="sidebar__link sidebar__btn-logout" id="logout-btn">
+      <svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Cerrar sesión
+    </button>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="admin-main">
+    <div class="admin-topbar">
+      <h1>
+        <span id="panel-title">Dashboard General</span>
+        <span class="topbar-badge">Sesión: administrador</span>
+      </h1>
+      <span style="font-size:0.82rem;color:rgba(255,255,255,0.5)">
+        Repositorio: <a href={githubRepoUrl} target="_blank" rel="noopener noreferrer" style="color:var(--yellow);text-decoration:underline">Proyecto-de-Empresa34</a>
+      </span>
+    </div>
+
+    <div class="admin-content">
+
+      <!-- DASHBOARD PANEL -->
+      <div class="panel active" id="panel-dashboard">
+        <div class="admin-notice">
+          <strong>Acceso Autorizado:</strong> Bienvenido al panel de gestión. Desde aquí puedes crear y administrar categorías, actualizar datos de contacto, enlaces de Instagram/WhatsApp y generar código para el portafolio.
+        </div>
+
+        <div class="cards-grid">
+          <div class="stat-card">
+            <div class="stat-card__num" id="stat-images-count">{initialPortfolioItems.length}</div>
+            <div class="stat-card__label">Fotografías en portafolio</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" id="stat-categories-count">{initialFilters.length - 1}</div>
+            <div class="stat-card__label">Categorías activas</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num">{initialServices.length}</div>
+            <div class="stat-card__label">Servicios configurados</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__num" style="color:#25D366">100%</div>
+            <div class="stat-card__label">Canales de contacto activos</div>
+          </div>
+        </div>
+
+        <h2 class="admin-sec-title">Resumen de Integraciones y Datos Oficiales</h2>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Parámetro</th>
+              <th>Valor Configurado</th>
+              <th>Estado</th>
+              <th>Gestión</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Instagram Oficial</strong></td>
+              <td id="dash-instagram-val">{INSTAGRAM_URL}</td>
+              <td><span class="badge badge--success">Conectado</span></td>
+              <td><a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" style="color:var(--yellow);text-decoration:underline">Probar perfil</a></td>
+            </tr>
+            <tr>
+              <td><strong>WhatsApp de Negocios</strong></td>
+              <td id="dash-whatsapp-val">{WHATSAPP_NUMBER}</td>
+              <td><span class="badge badge--pending">Pendiente confirmación</span></td>
+              <td><button class="btn-admin btn-admin--blue" style="padding:0.25rem 0.6rem;font-size:0.75rem" onclick="showPanel('contacto')">Editar</button></td>
+            </tr>
+            <tr>
+              <td><strong>Repositorio GitHub</strong></td>
+              <td><a href={githubRepoUrl} target="_blank" rel="noopener noreferrer" style="color:#7eb0ff">Yyeycord22/Proyecto-de-Empresa34</a></td>
+              <td><span class="badge badge--success">Enlazado</span></td>
+              <td><a href={githubRepoUrl} target="_blank" rel="noopener noreferrer" style="color:var(--yellow);text-decoration:underline">Ver repo</a></td>
+            </tr>
+            <tr>
+              <td><strong>Categorías del Portafolio</strong></td>
+              <td>Retratos, Corporativo, Hoteles, Dron</td>
+              <td><span class="badge badge--visible">Dinámico</span></td>
+              <td><button class="btn-admin btn-admin--yellow" style="padding:0.25rem 0.6rem;font-size:0.75rem" onclick="showPanel('categorias')">Administrar</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PANEL: GESTIÓN DE CATEGORÍAS -->
+      <div class="panel" id="panel-categorias">
+        <div class="admin-sec-title">
+          <span>Gestión de Categorías para Portafolio y Servicios</span>
+        </div>
+        <div class="admin-notice">
+          <strong>Administrador de Taxonomía:</strong> Añade, edita o elimina categorías. Las categorías creadas estarán disponibles automáticamente para etiquetar nuevas imágenes y clasificarlas en los filtros.
+        </div>
+
+        <!-- Formulario Crear/Editar Categoría -->
+        <div style="background:var(--gray-1); border:1px solid rgba(255,255,255,0.08); padding:1.75rem; border-radius:2px; margin-bottom:2rem;">
+          <h3 style="font-size:1.05rem; margin-bottom:1rem; color:var(--yellow)" id="cat-form-title">+ Crear Nueva Categoría</h3>
+          <form id="category-form">
+            <input type="hidden" id="cat-edit-index" value="-1" />
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="cat-name">Nombre de la categoría (Visible)</label>
+                <input class="form-input" id="cat-name" type="text" placeholder="Ej: Gastronomía & Alimentos" required />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cat-slug">Identificador único (Slug)</label>
+                <input class="form-input" id="cat-slug" type="text" placeholder="Ej: gastronomia" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cat-desc">Descripción o alcance</label>
+              <input class="form-input" id="cat-desc" type="text" placeholder="Ej: Fotografías de platos, bebidas y ambientes de restaurantes" />
+            </div>
+            <div style="display:flex; gap:0.75rem;">
+              <button type="submit" class="btn-admin btn-admin--red" id="cat-submit-btn">Guardar Categoría</button>
+              <button type="button" class="btn-admin btn-admin--outline" id="cat-cancel-btn" style="display:none;" onclick="resetCategoryForm()">Cancelar Edición</button>
+            </div>
+          </form>
+        </div>
+
+        <h3 style="font-size:1.1rem; margin-bottom:1rem;">Categorías Existentes</h3>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Identificador (Slug)</th>
+              <th>Nombre Visible</th>
+              <th>Descripción</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="categories-table-body">
+            <!-- Dinámico con JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- PANEL: GALERÍA DE FOTOS -->
+      <div class="panel" id="panel-imagenes">
+        <div class="admin-sec-title">
+          <span>Portafolio de Fotografías Activas</span>
+          <button class="btn-admin btn-admin--red" onclick="showPanel('subir')">+ Añadir nueva foto</button>
+        </div>
+        <div class="img-grid" id="admin-portfolio-grid">
+          {initialPortfolioItems.map((item) => (
+            <div class="img-thumb" data-id={item.id} data-cat={item.category}>
+              <span class="img-thumb__cat">{item.categoryLabel}</span>
+              <img src={item.image} alt={item.alt} loading="lazy" />
+              <div class="img-thumb__actions">
+                <button class="btn-admin btn-admin--danger" onclick={`deletePortfolioItem('${item.id}')`}>Eliminar</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- PANEL: SUBIR NUEVA FOTO -->
+      <div class="panel" id="panel-subir">
+        <h2 class="admin-sec-title">Añadir Nueva Fotografía al Portafolio</h2>
+        <div class="admin-notice">
+          <strong>Generador Modular:</strong> Carga o selecciona el archivo para generar automáticamente la ficha de datos en TypeScript para <code>src/data/projects.ts</code>.
+        </div>
+
+        <form id="upload-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="img-name">Nombre o Título del Proyecto</label>
+              <input class="form-input" id="img-name" type="text" placeholder="Ej: Retrato Editorial en Exteriores" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="img-category-select">Categoría Asignada</label>
+              <select class="form-select" id="img-category-select" required>
+                <!-- Se poblará dinámicamente con las categorías -->
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="img-alt">Texto Alternativo (SEO y Accesibilidad)</label>
+            <input class="form-input" id="img-alt" type="text" placeholder="Describe brevemente la toma y el sujeto principal" required />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="img-size">Formato en la Cuadrícula Bauhaus</label>
+              <select class="form-select" id="img-size">
+                <option value="">Normal (1 col × 1 fila)</option>
+                <option value="portfolio__item--wide">Panorámico ancho (2 cols × 1 fila)</option>
+                <option value="portfolio__item--tall">Vertical alto (1 col × 2 filas)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="img-path">Nombre de archivo en /public/imagenes/</label>
+              <input class="form-input" id="img-path" type="text" placeholder="foto-ejemplo.jpg" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Archivo de Fotografía</label>
+            <label class="upload-zone" id="upload-zone" for="img-file">
+              <div class="upload-zone__icon">📷</div>
+              <p class="upload-zone__label">Haz clic para buscar o arrastra tu archivo aquí</p>
+              <p class="upload-zone__hint">JPG, PNG o WebP — Alta resolución recomendada</p>
+              <input type="file" id="img-file" accept="image/*" />
+            </label>
+            <div id="img-preview" style="margin-top:1.25rem;display:none;text-align:center">
+              <img id="img-preview-src" src="" alt="Vista previa" style="max-height:220px;border:1px solid rgba(255,255,255,0.15);border-radius:2px" />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-admin btn-admin--red">Generar código para projects.ts →</button>
+        </form>
+
+        <div id="code-output" style="display:none;margin-top:2rem">
+          <h3 style="margin-bottom:0.75rem;font-size:0.95rem;color:var(--yellow)">Código listo para agregar en src/data/projects.ts:</h3>
+          <pre class="code-box" id="code-snippet"></pre>
+          <button onclick="copyCode()" class="btn-admin btn-admin--blue" style="margin-top:0.75rem">Copiar al portapapeles</button>
+        </div>
+      </div>
+
+      <!-- PANEL: CONFIGURACIÓN GENERAL Y CONTACTO -->
+      <div class="panel" id="panel-contacto">
+        <h2 class="admin-sec-title">Configuración de Información General y Contacto</h2>
+        <div class="admin-notice">
+          <strong>Canales de Comunicación:</strong> Actualiza aquí el número telefónico, WhatsApp, Instagram oficial y datos de atención del estudio.
+        </div>
+
+        <form id="contact-settings-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cfg-whatsapp">Número de WhatsApp (con código de país)</label>
+              <input class="form-input" id="cfg-whatsapp" type="text" value={WHATSAPP_NUMBER} placeholder="Ej: 593999999999" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-phone">Teléfono Directo para Llamadas</label>
+              <input class="form-input" id="cfg-phone" type="text" value="+593 99 999 9999" placeholder="Ej: +593 99 999 9999" required />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="cfg-instagram">Enlace Oficial de Instagram</label>
+              <input class="form-input" id="cfg-instagram" type="url" value={INSTAGRAM_URL} placeholder="https://www.instagram.com/haus_cm" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="cfg-repo">Repositorio GitHub Oficial</label>
+              <input class="form-input" id="cfg-repo" type="url" value={githubRepoUrl} readonly />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="cfg-address">Ubicación y Cobertura</label>
+            <input class="form-input" id="cfg-address" type="text" value="Mindo, Los Bancos — Pichincha, Ecuador" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="cfg-hours">Horario Comercial</label>
+            <input class="form-input" id="cfg-hours" type="text" value="Lunes a Viernes: 08:00 - 18:00 | Sábados: 08:00 - 14:00" required />
+          </div>
+
+          <button type="submit" class="btn-admin btn-admin--yellow">Guardar Configuración de Contacto</button>
+        </form>
+      </div>
+
+      <!-- PANEL: CASOS DE PROYECTOS -->
+      <div class="panel" id="panel-proyectos">
+        <h2 class="admin-sec-title">Registro de Casos de Proyectos</h2>
+        <div class="admin-notice">
+          Documenta trabajos reales para clientes (hoteles, gimnasios, empresas) sin inventar métricas no confirmadas.
+        </div>
+        <form id="project-form">
+          <div class="form-group">
+            <label class="form-label" for="proj-name">Nombre del Cliente o Establecimiento</label>
+            <input class="form-input" id="proj-name" type="text" placeholder="Ej: Hotel El Mirador — Producción Audiovisual" />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="proj-type">Tipo de Cliente</label>
+              <select class="form-select" id="proj-type">
+                <option>Hotel / Hospedaje Turístico</option>
+                <option>Gimnasio / Deporte & Fitness</option>
+                <option>Comercio / Restaurante Local</option>
+                <option>Particular / Retrato de Autor</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="proj-service">Servicio Principal Realizado</label>
+              <select class="form-select" id="proj-service">
+                {initialServices.map(s => (
+                  <option>{s.title}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="proj-context">Contexto y Objetivos del Cliente</label>
+            <textarea class="form-textarea" id="proj-context" placeholder="Qué deseaba comunicar la marca y qué audiencia buscaba atraer..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="proj-work">Tareas Realizadas y Entregables</label>
+            <textarea class="form-textarea" id="proj-work" placeholder="Sesión de fotografía, tomas con dron, edición de video promocional..."></textarea>
+          </div>
+          <button type="button" class="btn-admin btn-admin--red" onclick="alert('Ficha de proyecto guardada satisfactoriamente en el registro.')">Guardar Ficha de Proyecto</button>
+        </form>
+      </div>
+
+      <!-- PANEL: SERVICIOS ACTIVOS -->
+      <div class="panel" id="panel-servicios">
+        <h2 class="admin-sec-title">Servicios Activos en el Catálogo Bauhaus</h2>
+        <div class="admin-notice">
+          Los 5 servicios principales definidos en la especificación están sincronizados con <code>src/data/services.ts</code>.
+        </div>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Servicio</th>
+              <th>Prestaciones</th>
+              <th>Llamada a la Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            {initialServices.map(s => (
+              <tr>
+                <td><strong style={`color:${s.numberColor}`}>{s.number}</strong></td>
+                <td><strong>{s.title}</strong></td>
+                <td>{s.features.join(' · ')}</td>
+                <td><span class="badge badge--success">{s.buttonText}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script is:inline>
+  /* ============================================================
+     GESTIÓN DE AUTENTICACIÓN (Usuario: administrador / Contraseña: 3344K)
+     ============================================================ */
+  const AUTH_USER = 'administrador';
+  const AUTH_PASS = '3344K';
+
+  const authGate = document.getElementById('auth-gate');
+  const dashboardRoot = document.getElementById('admin-dashboard-root');
+  const loginForm = document.getElementById('admin-login-form');
+  const loginErrorMsg = document.getElementById('login-error-msg');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  function checkAuth() {
+    const isAuth = sessionStorage.getItem('haus_admin_authenticated') === 'true';
+    if (isAuth) {
+      if (authGate) authGate.style.display = 'none';
+      if (dashboardRoot) dashboardRoot.style.display = 'flex';
+    } else {
+      if (authGate) authGate.style.display = 'flex';
+      if (dashboardRoot) dashboardRoot.style.display = 'none';
+    }
+  }
+
+  loginForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const user = document.getElementById('login-username')?.value.trim();
+    const pass = document.getElementById('login-password')?.value.trim();
+
+    if (user === AUTH_USER && pass === AUTH_PASS) {
+      sessionStorage.setItem('haus_admin_authenticated', 'true');
+      if (loginErrorMsg) loginErrorMsg.style.display = 'none';
+      checkAuth();
+    } else {
+      if (loginErrorMsg) {
+        loginErrorMsg.style.display = 'block';
+        loginErrorMsg.textContent = 'Credenciales no autorizadas. Ingrese el usuario y contraseña correctos.';
+      }
+    }
+  });
+
+  logoutBtn?.addEventListener('click', function () {
+    if (confirm('¿Deseas cerrar la sesión de administración?')) {
+      sessionStorage.removeItem('haus_admin_authenticated');
+      checkAuth();
+    }
+  });
+
+  checkAuth();
+
+  /* ============================================================
+     NAVEGACIÓN ENTRE PANELES
+     ============================================================ */
+  function showPanel(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('active'));
+    const targetPanel = document.getElementById('panel-' + id);
+    const targetNav = document.getElementById('nav-' + id);
+    if (targetPanel) targetPanel.classList.add('active');
+    if (targetNav) targetNav.classList.add('active');
+    const titles = {
+      dashboard: 'Dashboard General',
+      categorias: 'Gestión de Categorías',
+      imagenes: 'Portafolio & Fotografías',
+      subir: 'Añadir Nueva Foto',
+      contacto: 'Contacto & Redes Oficiales',
+      proyectos: 'Casos de Proyectos',
+      servicios: 'Servicios Activos'
+    };
+    const titleEl = document.getElementById('panel-title');
+    if (titleEl) titleEl.textContent = titles[id] || id;
+  }
+
+  /* ============================================================
+     GESTIÓN DINÁMICA DE CATEGORÍAS (CREAR, EDITAR, ELIMINAR)
+     ============================================================ */
+  let categories = [
+    { key: 'retratos', label: 'Retratos', desc: 'Retratos personales y fotografía de estudio editorial' },
+    { key: 'corporativo', label: 'Empresas & Negocios', desc: 'Fotografía comercial para instalaciones y marcas' },
+    { key: 'hoteles', label: 'Hoteles & Espacios', desc: 'Turismo, hostelería y arquitectura' },
+    { key: 'dron', label: 'Dron & Aéreo', desc: 'Tomas panorámicas aéreas de paisajes y propiedades' }
+  ];
+
+  // Cargar categorías guardadas en localStorage si existen
+  const savedCats = localStorage.getItem('haus_categories');
+  if (savedCats) {
+    try { categories = JSON.parse(savedCats); } catch (e) {}
+  }
+
+  function saveCategories() {
+    localStorage.setItem('haus_categories', JSON.stringify(categories));
+    renderCategoriesTable();
+    populateCategoryDropdown();
+    const statCat = document.getElementById('stat-categories-count');
+    if (statCat) statCat.textContent = categories.length;
+  }
+
+  function renderCategoriesTable() {
+    const tbody = document.getElementById('categories-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    categories.forEach((cat, index) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><code>${cat.key}</code></td>
+        <td><strong>${cat.label}</strong></td>
+        <td>${cat.desc || '—'}</td>
+        <td style="display:flex; gap:0.5rem;">
+          <button class="btn-admin btn-admin--blue" style="padding:0.3rem 0.6rem;font-size:0.75rem" onclick="editCategory(${index})">Editar</button>
+          <button class="btn-admin btn-admin--danger" onclick="deleteCategory(${index})">Eliminar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function populateCategoryDropdown() {
+    const select = document.getElementById('img-category-select');
+    if (!select) return;
+    select.innerHTML = '<option value="">— Seleccionar categoría —</option>';
+    categories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat.key;
+      opt.textContent = cat.label;
+      select.appendChild(opt);
+    });
+  }
+
+  window.editCategory = function(index) {
+    const cat = categories[index];
+    if (!cat) return;
+    document.getElementById('cat-edit-index').value = index;
+    document.getElementById('cat-name').value = cat.label;
+    document.getElementById('cat-slug').value = cat.key;
+    document.getElementById('cat-desc').value = cat.desc || '';
+    document.getElementById('cat-form-title').textContent = '✏ Editando Categoría: ' + cat.label;
+    document.getElementById('cat-submit-btn').textContent = 'Actualizar Categoría';
+    document.getElementById('cat-cancel-btn').style.display = 'inline-block';
+    document.getElementById('cat-name').focus();
+  };
+
+  window.deleteCategory = function(index) {
+    const cat = categories[index];
+    if (confirm(`¿Estás seguro de eliminar la categoría "${cat.label}"?`)) {
+      categories.splice(index, 1);
+      saveCategories();
+      alert('Categoría eliminada.');
+    }
+  };
+
+  window.resetCategoryForm = function() {
+    document.getElementById('cat-edit-index').value = '-1';
+    document.getElementById('cat-name').value = '';
+    document.getElementById('cat-slug').value = '';
+    document.getElementById('cat-desc').value = '';
+    document.getElementById('cat-form-title').textContent = '+ Crear Nueva Categoría';
+    document.getElementById('cat-submit-btn').textContent = 'Guardar Categoría';
+    document.getElementById('cat-cancel-btn').style.display = 'none';
+  };
+
+  const catForm = document.getElementById('category-form');
+  catForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const editIndex = parseInt(document.getElementById('cat-edit-index')?.value || '-1', 10);
+    const name = document.getElementById('cat-name')?.value.trim();
+    const slug = document.getElementById('cat-slug')?.value.trim().toLowerCase().replace(/\s+/g, '-');
+    const desc = document.getElementById('cat-desc')?.value.trim();
+
+    if (!name || !slug) {
+      alert('El nombre y el identificador (slug) son obligatorios.');
+      return;
+    }
+
+    if (editIndex >= 0 && editIndex < categories.length) {
+      categories[editIndex] = { key: slug, label: name, desc };
+      alert('¡Categoría actualizada exitosamente!');
+    } else {
+      categories.push({ key: slug, label: name, desc });
+      alert('¡Nueva categoría creada exitosamente!');
+    }
+
+    saveCategories();
+    resetCategoryForm();
+  });
+
+  renderCategoriesTable();
+  populateCategoryDropdown();
+
+  /* ============================================================
+     PREVISUALIZACIÓN Y DRAG & DROP DE FOTOS
+     ============================================================ */
+  const fileInput = document.getElementById('img-file');
+  const previewDiv = document.getElementById('img-preview');
+  const previewImg = document.getElementById('img-preview-src');
+  const pathInput = document.getElementById('img-path');
+
+  fileInput?.addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+    if (pathInput && !pathInput.value) {
+      pathInput.value = file.name;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      if (previewDiv && previewImg) {
+        previewDiv.style.display = 'block';
+        previewImg.src = e.target.result;
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+  const zone = document.getElementById('upload-zone');
+  if (zone) {
+    ['dragenter', 'dragover'].forEach(ev => {
+      zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    });
+    ['dragleave', 'drop'].forEach(ev => {
+      zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.remove('drag-over'); });
+    });
+    zone.addEventListener('drop', e => {
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        if (fileInput) {
+          fileInput.files = dt.files;
+          fileInput.dispatchEvent(new Event('change'));
+        }
+      }
+    });
+  }
+
+  // Generador de código para projects.ts
+  const uploadForm = document.getElementById('upload-form');
+  uploadForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('img-name')?.value.trim();
+    const cat = document.getElementById('img-category-select')?.value;
+    const alt = document.getElementById('img-alt')?.value.trim();
+    const size = document.getElementById('img-size')?.value;
+    const customPath = document.getElementById('img-path')?.value.trim();
+    const file = fileInput?.files?.[0];
+
+    if (!name || !cat || !alt) {
+      alert('Completa los campos obligatorios.');
+      return;
+    }
+
+    const filename = customPath || (file ? file.name : 'tu-foto.jpg');
+    const id = 'p_' + Date.now();
+    const selectedCatObj = categories.find(c => c.key === cat);
+    const categoryLabel = selectedCatObj ? selectedCatObj.label : cat;
+
+    const snippet = `  {
+    id: '${id}',
+    category: '${cat}',
+    categoryLabel: '${categoryLabel}',
+    image: '/imagenes/${filename}',
+    alt: '${alt}',${size ? `\n    sizeClass: '${size}',` : ''}
+  },`;
+
+    const codeOutput = document.getElementById('code-output');
+    const snippetEl = document.getElementById('code-snippet');
+    if (snippetEl && codeOutput) {
+      snippetEl.textContent = snippet;
+      codeOutput.style.display = 'block';
+      codeOutput.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  window.copyCode = function() {
+    const text = document.getElementById('code-snippet')?.textContent || '';
+    navigator.clipboard.writeText(text)
+      .then(() => alert('¡Código copiado al portapapeles! Pégalo en src/data/projects.ts'))
+      .catch(() => alert('Selecciona y copia manualmente el texto.'));
+  };
+
+  window.deletePortfolioItem = function(id) {
+    if (confirm('Para remover esta imagen permanentemente, elimina la entrada en src/data/projects.ts con id: ' + id)) {
+      const el = document.querySelector(`.img-thumb[data-id="${id}"]`);
+      if (el) el.remove();
+    }
+  };
+
+  /* ============================================================
+     CONFIGURACIÓN DE CONTACTO Y REDES
+     ============================================================ */
+  const contactForm = document.getElementById('contact-settings-form');
+  contactForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const wa = document.getElementById('cfg-whatsapp')?.value.trim();
+    const phone = document.getElementById('cfg-phone')?.value.trim();
+    const insta = document.getElementById('cfg-instagram')?.value.trim();
+
+    localStorage.setItem('haus_cfg_whatsapp', wa);
+    localStorage.setItem('haus_cfg_phone', phone);
+    localStorage.setItem('haus_cfg_instagram', insta);
+
+    const dashWa = document.getElementById('dash-whatsapp-val');
+    const dashInsta = document.getElementById('dash-instagram-val');
+    if (dashWa) dashWa.textContent = wa;
+    if (dashInsta) dashInsta.textContent = insta;
+
+    alert('¡Configuración de contacto guardada exitosamente!\n\nWhatsApp: ' + wa + '\nTeléfono: ' + phone + '\nInstagram: ' + insta);
+  });
+</script>
+</body>
+</html>

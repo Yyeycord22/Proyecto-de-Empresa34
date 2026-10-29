@@ -1,0 +1,47 @@
+---
+// src/components/About.astro
+---
+
+<section class="about" id="nosotros" aria-labelledby="about-title">
+  <div class="container about__grid">
+    <div class="about__visual" aria-hidden="true">
+      <div class="about__img-wrap">
+        <img 
+          src="/imagenes/5c400274-ebb6-4011-a660-000f9726e8d8.jpg" 
+          alt="Sesión de fotografía profesional y retrato en HAUS COMMUNITY" 
+          class="about__img" 
+          loading="lazy" 
+        />
+      </div>
+      <div class="about__geo about__geo--circle"></div>
+      <div class="about__geo about__geo--rect"></div>
+      <div class="about__geo about__geo--square"></div>
+    </div>
+    <div class="about__text reveal">
+      <span class="label">SOBRE NOSOTROS</span>
+      <h2 class="about__title" id="about-title">Fotografía y contenido con propósito.</h2>
+      <p class="about__desc">
+        En HAUS COMMUNITY FOTOGRAFÍA combinamos creatividad, técnica y estrategia para ofrecer contenido visual personalizado. Escuchamos tus ideas, analizamos las posibilidades y te acompañamos en la creación de material visual para comunicar mejor tu negocio.
+      </p>
+      <ul class="about__steps">
+        <li>
+          <span class="about__step-dot" style="background:var(--red)"></span>
+          <span>Ideas y planificación estratégica</span>
+        </li>
+        <li>
+          <span class="about__step-dot" style="background:var(--yellow)"></span>
+          <span>Grabación y fotografía profesional</span>
+        </li>
+        <li>
+          <span class="about__step-dot" style="background:var(--blue)"></span>
+          <span>Edición y postproducción de alta gama</span>
+        </li>
+        <li>
+          <span class="about__step-dot" style="background:var(--red)"></span>
+          <span>Publicación y optimización para redes</span>
+        </li>
+      </ul>
+      <a href="#servicios" class="btn btn--outline about__btn" id="about-cta-btn">Conoce más →</a>
+    </div>
+  </div>
+</section>

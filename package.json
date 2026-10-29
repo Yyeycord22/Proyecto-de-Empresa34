@@ -1,0 +1,23 @@
+{
+  "name": "haus-astro",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Sitio web oficial y panel de administración para HAUS COMMUNITY FOTOGRAFÍA - Bauhaus Contemporáneo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yyeycord22/Proyecto-de-Empresa34.git"
+  },
+  "homepage": "https://github.com/Yyeycord22/Proyecto-de-Empresa34#readme",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^7.4.4"
+  }
+}
