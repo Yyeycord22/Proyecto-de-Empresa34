@@ -23,29 +23,291 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
   <title>{title}</title>
   <meta name="description" content={description} />
   
-  <!-- Open Graph / Redes Sociales -->
+  <!-- Metadatos de Redes y Repositorio Oficial -->
   <meta property="og:title" content="HAUS COMMUNITY FOTOGRAFÍA" />
   <meta property="og:description" content="Creamos contenido visual personalizado para tu marca, negocio e historias." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://github.com/Yyeycord22/Proyecto-de-Empresa34" />
+  <meta property="og:url" content={githubRepoUrl} />
   <meta property="og:image" content="/imagenes/592403512_18033143426770155_1529202580814031402_n.jpg" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href={githubRepoUrl} />
 
-  <!-- Google Fonts: Space Grotesk & DM Serif Display -->
+  <!-- Tipografía Oficial: Space Grotesk & DM Serif Display -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
 </head>
 <body>
-  <!-- Contenido de las páginas -->
+  <!-- Contenido principal -->
   <slot />
 
-  <!-- Modal Interactivo de Canales de Contacto (WhatsApp, Instagram, Llamada) -->
+  <!-- Modal Interactivo de Canales de Contacto (WhatsApp, Instagram, Teléfono) -->
   <ContactModal />
 
   <script>
-    /* ---- HEADER: scroll & active nav ---- */
+    /* ============================================================
+       SINCRONIZACIÓN DINÁMICA CON LOCALSTORAGE (CRUD EN VIVO)
+       ============================================================ */
+
+    // 1. Datos iniciales de respaldo
+    const DEFAULT_CATEGORIES = [
+      { key: 'all', label: 'Todos' },
+      { key: 'retratos', label: 'Retratos' },
+      { key: 'corporativo', label: 'Empresas' },
+      { key: 'hoteles', label: 'Hoteles' },
+      { key: 'dron', label: 'Dron' }
+    ];
+
+    const DEFAULT_PORTFOLIO = [
+      {
+        id: 'p1',
+        category: 'retratos',
+        categoryLabel: 'Retratos',
+        image: '/imagenes/8892d99e-b592-440d-b1f6-8f44f9d1ece1.jpg',
+        alt: 'Retrato editorial — sesión fotográfica profesional',
+      },
+      {
+        id: 'p2',
+        category: 'hoteles',
+        categoryLabel: 'Eventos',
+        image: '/imagenes/1ffc9d4d-dd7c-46d2-9018-0d03835c1030.jpg',
+        alt: 'Ceremonias y eventos — fotografía de boda en exterior',
+        sizeClass: 'portfolio__item--wide',
+      },
+      {
+        id: 'p3',
+        category: 'retratos',
+        categoryLabel: 'Retratos',
+        image: '/imagenes/c7282eb5-83ca-4c6a-ba60-21c7d1e503e9.jpg',
+        alt: 'Retrato de estudio — sesión individual',
+      },
+      {
+        id: 'p4',
+        category: 'retratos',
+        categoryLabel: 'Retratos',
+        image: '/imagenes/5c400274-ebb6-4011-a660-000f9726e8d8.jpg',
+        alt: 'Retrato creativo — fotografía editorial',
+        sizeClass: 'portfolio__item--tall',
+      },
+      {
+        id: 'p5',
+        category: 'corporativo',
+        categoryLabel: 'Corporativo',
+        image: '/imagenes/dbf740b7-4147-45c8-8663-60e345891e77.jpg',
+        alt: 'Evento corporativo — fotografía de pareja',
+      },
+      {
+        id: 'p6',
+        category: 'retratos',
+        categoryLabel: 'Retratos',
+        image: '/imagenes/e7c0f339-ae49-41b0-8fad-61c3415914de.jpg',
+        alt: 'Retrato editorial — luz natural y expresión',
+      },
+      {
+        id: 'p7',
+        category: 'hoteles',
+        categoryLabel: 'Hoteles',
+        image: '/imagenes/85060db9-4bcd-45bf-bc06-72ae9053dc8b.jpg',
+        alt: 'Fotografía de hotel — espacios y detalles',
+      },
+      {
+        id: 'p8',
+        category: 'corporativo',
+        categoryLabel: 'Corporativo',
+        image: '/imagenes/40b5dc37-3a9d-444f-8a4c-a47219818668.jpg',
+        alt: 'Producción audiovisual — detrás de cámaras',
+      },
+      {
+        id: 'p9',
+        category: 'retratos',
+        categoryLabel: 'Retratos',
+        image: '/imagenes/592403512_18033143426770155_1529202580814031402_n.jpg',
+        alt: 'Sesión fotográfica profesional de retrato',
+      }
+    ];
+
+    // Inicializar almacenamiento si está vacío
+    if (!localStorage.getItem('haus_portfolio_items')) {
+      localStorage.setItem('haus_portfolio_items', JSON.stringify(DEFAULT_PORTFOLIO));
+    }
+    if (!localStorage.getItem('haus_categories')) {
+      localStorage.setItem('haus_categories', JSON.stringify([
+        { key: 'retratos', label: 'Retratos', desc: 'Retratos y sesiones de estudio' },
+        { key: 'corporativo', label: 'Empresas', desc: 'Fotografía comercial' },
+        { key: 'hoteles', label: 'Hoteles', desc: 'Espacios y turismo' },
+        { key: 'dron', label: 'Dron', desc: 'Tomas panorámicas aéreas' }
+      ]));
+    }
+
+    // 2. Sincronizar Contacto en Vivo
+    function syncContactInfo() {
+      const wa = localStorage.getItem('haus_cfg_whatsapp') || '593XXXXXXXXX';
+      const phone = localStorage.getItem('haus_cfg_phone') || '+593 99 999 9999';
+      const insta = localStorage.getItem('haus_cfg_instagram') || 'https://www.instagram.com/haus_cm';
+
+      // Actualizar todos los enlaces de WhatsApp
+      document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
+        const href = (link as HTMLAnchorElement).href;
+        const urlObj = new URL(href);
+        const textParam = urlObj.searchParams.get('text') || '';
+        (link as HTMLAnchorElement).href = `https://wa.me/${wa}?text=${encodeURIComponent(textParam)}`;
+      });
+
+      // Actualizar enlaces de Instagram
+      document.querySelectorAll('a[href*="instagram.com"]').forEach(link => {
+        (link as HTMLAnchorElement).href = insta;
+      });
+
+      // Actualizar enlaces telefónicos
+      document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+        (link as HTMLAnchorElement).href = `tel:${phone.replace(/\s+/g, '')}`;
+      });
+    }
+
+    // 3. Sincronizar Portafolio y Categorías en Vivo
+    function syncPortfolioGrid() {
+      const grid = document.getElementById('portfolio-grid');
+      const filtersContainer = document.getElementById('portfolio-filters');
+      if (!grid) return;
+
+      const storedItemsStr = localStorage.getItem('haus_portfolio_items');
+      const storedCatsStr = localStorage.getItem('haus_categories');
+
+      let currentItems = DEFAULT_PORTFOLIO;
+      if (storedItemsStr) {
+        try { currentItems = JSON.parse(storedItemsStr); } catch (e) {}
+      }
+
+      let currentCats = [
+        { key: 'all', label: 'Todos' }
+      ];
+      if (storedCatsStr) {
+        try {
+          const parsed = JSON.parse(storedCatsStr);
+          parsed.forEach((c: any) => currentCats.push({ key: c.key, label: c.label }));
+        } catch (e) {}
+      } else {
+        currentCats = DEFAULT_CATEGORIES;
+      }
+
+      // Re-renderizar filtros si existe el contenedor
+      if (filtersContainer) {
+        filtersContainer.innerHTML = '';
+        currentCats.forEach((filter, idx) => {
+          const btn = document.createElement('button');
+          btn.className = `filter-btn ${idx === 0 ? 'active' : ''}`;
+          btn.dataset.filter = filter.key;
+          btn.id = `filter-${filter.key}`;
+          btn.textContent = filter.label;
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterPortfolio(filter.key);
+          });
+          filtersContainer.appendChild(btn);
+        });
+      }
+
+      // Re-renderizar elementos de la cuadrícula
+      grid.innerHTML = '';
+      currentItems.forEach((item: any) => {
+        const div = document.createElement('div');
+        div.className = `portfolio__item ${item.sizeClass || ''}`;
+        div.dataset.category = item.category;
+        div.dataset.img = item.image;
+        div.dataset.alt = item.alt;
+        div.tabIndex = 0;
+        div.role = 'button';
+        div.setAttribute('aria-label', `Ver fotografía: ${item.alt}`);
+
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.alt}" loading="lazy" />
+          <div class="portfolio__item-overlay">
+            <span>${item.categoryLabel || item.category}</span>
+          </div>
+        `;
+
+        // Eventos para el Lightbox
+        div.addEventListener('click', () => openLightboxForItem(div));
+        div.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openLightboxForItem(div);
+          }
+        });
+
+        grid.appendChild(div);
+      });
+    }
+
+    // Filtrar elementos del portafolio
+    function filterPortfolio(filterKey: string) {
+      const items = document.querySelectorAll('.portfolio__item');
+      items.forEach(item => {
+        const match = filterKey === 'all' || (item as HTMLElement).dataset.category === filterKey;
+        item.classList.toggle('hidden', !match);
+      });
+    }
+
+    /* ---- LIGHTBOX DE IMÁGENES ---- */
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const lbCaption = document.getElementById('lightbox-caption');
+    const lbClose = document.getElementById('lightbox-close');
+    const lbPrev = document.getElementById('lightbox-prev');
+    const lbNext = document.getElementById('lightbox-next');
+
+    let visibleItems: HTMLElement[] = [];
+    let currentIdx = 0;
+
+    function getVisibleItems(): HTMLElement[] {
+      return Array.from(document.querySelectorAll('.portfolio__item'))
+        .filter(item => !item.classList.contains('hidden')) as HTMLElement[];
+    }
+
+    function showSlide(idx: number) {
+      visibleItems = getVisibleItems();
+      const item = visibleItems[idx];
+      if (!item || !lbImg || !lbCaption) return;
+      lbImg.src = item.dataset.img || '';
+      lbImg.alt = item.dataset.alt || '';
+      lbCaption.textContent = item.dataset.alt || '';
+    }
+
+    function openLightboxForItem(item: HTMLElement) {
+      visibleItems = getVisibleItems();
+      const visIdx = visibleItems.indexOf(item);
+      currentIdx = visIdx > -1 ? visIdx : 0;
+      showSlide(currentIdx);
+      lightbox?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lbClose?.focus();
+    }
+
+    function closeLightbox() {
+      lightbox?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    lbClose?.addEventListener('click', closeLightbox);
+    lbPrev?.addEventListener('click', () => {
+      visibleItems = getVisibleItems();
+      if (visibleItems.length === 0) return;
+      currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
+      showSlide(currentIdx);
+    });
+    lbNext?.addEventListener('click', () => {
+      visibleItems = getVisibleItems();
+      if (visibleItems.length === 0) return;
+      currentIdx = (currentIdx + 1) % visibleItems.length;
+      showSlide(currentIdx);
+    });
+
+    lightbox?.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    /* ---- HEADER SCROLL Y ACTIVE NAV ---- */
     const header = document.getElementById('header');
     const navLinks = document.querySelectorAll('.header__nav-link');
     const sections = document.querySelectorAll('main section[id]');
@@ -88,7 +350,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       });
     });
 
-    /* ---- MODAL DE CONTACTO INTERACTIVO ---- */
+    /* ---- MODAL DE CONTACTO ---- */
     const contactModal = document.getElementById('contact-modal');
     const contactModalClose = document.getElementById('contact-modal-close');
     const contactModalOverlay = document.getElementById('contact-modal-overlay');
@@ -98,7 +360,6 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       contactModal?.classList.add('open');
       contactModal?.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
-      // Si el menú móvil estaba abierto, lo cerramos
       if (mobileMenu?.classList.contains('open')) {
         mobileMenu.classList.remove('open');
         menuBtn?.classList.remove('open');
@@ -122,7 +383,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     contactModalClose?.addEventListener('click', closeContactModal);
     contactModalOverlay?.addEventListener('click', closeContactModal);
 
-    /* ---- REVEAL ANIMATION ---- */
+    /* ---- REVEAL ANIMATIONS ---- */
     const revealEls = document.querySelectorAll('.reveal');
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -134,92 +395,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     }, { threshold: 0.1 });
     revealEls.forEach(el => revealObserver.observe(el));
 
-    /* ---- PORTFOLIO FILTER ---- */
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio__item');
-
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = (btn as HTMLElement).dataset.filter;
-        portfolioItems.forEach(item => {
-          const match = filter === 'all' || (item as HTMLElement).dataset.category === filter;
-          item.classList.toggle('hidden', !match);
-        });
-      });
-    });
-
-    /* ---- LIGHTBOX ---- */
-    const lightbox = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lightbox-img') as HTMLImageElement;
-    const lbCaption = document.getElementById('lightbox-caption');
-    const lbClose = document.getElementById('lightbox-close');
-    const lbPrev = document.getElementById('lightbox-prev');
-    const lbNext = document.getElementById('lightbox-next');
-
-    let visibleItems: Element[] = [];
-    let currentIdx = 0;
-
-    function getVisible() {
-      return Array.from(portfolioItems).filter(i => !i.classList.contains('hidden'));
-    }
-
-    function showSlide(idx: number) {
-      const item = visibleItems[idx] as HTMLElement;
-      if (!item || !lbImg || !lbCaption) return;
-      lbImg.src = item.dataset.img || '';
-      lbImg.alt = item.dataset.alt || '';
-      lbCaption.textContent = item.dataset.alt || '';
-    }
-
-    function openLightbox(idx: number) {
-      visibleItems = getVisible();
-      currentIdx = idx;
-      showSlide(currentIdx);
-      lightbox?.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      lbClose?.focus();
-    }
-
-    function closeLightbox() {
-      lightbox?.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = '';
-    }
-
-    portfolioItems.forEach(item => {
-      item.addEventListener('click', () => {
-        visibleItems = getVisible();
-        const visIdx = visibleItems.indexOf(item);
-        openLightbox(visIdx > -1 ? visIdx : 0);
-      });
-      item.addEventListener('keydown', (e) => {
-        if ((e as KeyboardEvent).key === 'Enter' || (e as KeyboardEvent).key === ' ') {
-          e.preventDefault();
-          visibleItems = getVisible();
-          const visIdx = visibleItems.indexOf(item);
-          openLightbox(visIdx > -1 ? visIdx : 0);
-        }
-      });
-    });
-
-    lbClose?.addEventListener('click', closeLightbox);
-    lbPrev?.addEventListener('click', () => {
-      if (visibleItems.length === 0) return;
-      currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
-      showSlide(currentIdx);
-    });
-    lbNext?.addEventListener('click', () => {
-      if (visibleItems.length === 0) return;
-      currentIdx = (currentIdx + 1) % visibleItems.length;
-      showSlide(currentIdx);
-    });
-
-    lightbox?.addEventListener('click', (e) => {
-      if (e.target === lightbox) closeLightbox();
-    });
-
-    /* ---- KEYBOARD NAVIGATION (ESCAPE, ARROWS) ---- */
+    /* ---- NAVEGACIÓN CON TECLADO ---- */
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (contactModal?.classList.contains('open')) closeContactModal();
@@ -227,11 +403,13 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       }
       if (lightbox?.getAttribute('aria-hidden') === 'false') {
         if (e.key === 'ArrowLeft') {
+          visibleItems = getVisibleItems();
           if (visibleItems.length === 0) return;
           currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
           showSlide(currentIdx);
         }
         if (e.key === 'ArrowRight') {
+          visibleItems = getVisibleItems();
           if (visibleItems.length === 0) return;
           currentIdx = (currentIdx + 1) % visibleItems.length;
           showSlide(currentIdx);
@@ -239,7 +417,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       }
     });
 
-    /* ---- SMOOTH SCROLL ---- */
+    /* ---- DESPLAZAMIENTO SUAVE ---- */
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function (e) {
         const href = (anchor as HTMLAnchorElement).getAttribute('href');
@@ -254,7 +432,9 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       });
     });
 
-    /* ---- INIT ---- */
+    // Ejecutar inicializaciones y sincronizaciones dinámicas
+    syncContactInfo();
+    syncPortfolioGrid();
     updateActiveNav();
   </script>
 </body>

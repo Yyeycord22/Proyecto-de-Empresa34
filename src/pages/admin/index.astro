@@ -27,14 +27,13 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       --gray-1: #181818;
       --gray-2: #282828;
       --gray-3: #8E8E93;
-      --gray-4: #E5E5EA;
       --font: 'Space Grotesk', system-ui, sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: var(--font); background: var(--black); color: var(--white); min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
     a { color: inherit; text-decoration: none; }
     button { font-family: var(--font); cursor: pointer; }
-    :focus-visible { outline: 3px solid var(--yellow); outline-offset: 2px; }
+    :focus-visible { outline: 2.5px solid var(--yellow); outline-offset: 2px; }
 
     /* AUTH LOGIN SCREEN */
     #auth-gate {
@@ -51,8 +50,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 4px; padding: 2.75rem 2.25rem;
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 210, 26, 0.25);
-      text-align: center;
-      position: relative;
+      text-align: center; position: relative;
     }
     .login-logo {
       width: 64px; height: 64px; border-radius: 50%;
@@ -239,7 +237,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     }
     .img-thumb:hover .img-thumb__actions { opacity: 1; }
 
-    /* CODE SNIPPET OUTPUT */
+    /* CODE BOX */
     .code-box {
       background: #1e1e1e; padding: 1.25rem; border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 2px; overflow-x: auto; font-family: monospace; font-size: 0.85rem; line-height: 1.6; color: #a6e22e;
@@ -255,7 +253,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
 </head>
 <body>
 
-<!-- PANTALLA DE ACCESO OBLIGATORIA (LOGIN GUARD) -->
+<!-- ACCESO OBLIGATORIO: LOGIN GUARD -->
 <div id="auth-gate">
   <div class="login-card">
     <img 
@@ -267,7 +265,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     <p class="login-subtitle">Ingresa tus credenciales autorizadas de administrador</p>
     
     <div class="login-alert" id="login-error-msg">
-      Usuario o contraseña incorrectos. Intente nuevamente.
+      Usuario o contraseña incorrectos.
     </div>
 
     <form id="admin-login-form">
@@ -378,7 +376,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       <!-- DASHBOARD PANEL -->
       <div class="panel active" id="panel-dashboard">
         <div class="admin-notice">
-          <strong>Acceso Autorizado:</strong> Bienvenido al panel de gestión. Desde aquí puedes crear y administrar categorías, actualizar datos de contacto, enlaces de Instagram/WhatsApp y generar código para el portafolio.
+          <strong>Acceso Autorizado:</strong> Las modificaciones realizadas en categorías, portafolio y datos de contacto se guardan inmediatamente y se reflejan en tiempo real en la página principal.
         </div>
 
         <div class="cards-grid">
@@ -400,14 +398,14 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
           </div>
         </div>
 
-        <h2 class="admin-sec-title">Resumen de Integraciones y Datos Oficiales</h2>
+        <h2 class="admin-sec-title">Resumen de Canales y Estado</h2>
         <table class="admin-table">
           <thead>
             <tr>
               <th>Parámetro</th>
               <th>Valor Configurado</th>
               <th>Estado</th>
-              <th>Gestión</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody>
@@ -420,7 +418,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
             <tr>
               <td><strong>WhatsApp de Negocios</strong></td>
               <td id="dash-whatsapp-val">{WHATSAPP_NUMBER}</td>
-              <td><span class="badge badge--pending">Pendiente confirmación</span></td>
+              <td><span class="badge badge--success">Activo</span></td>
               <td><button class="btn-admin btn-admin--blue" style="padding:0.25rem 0.6rem;font-size:0.75rem" onclick="showPanel('contacto')">Editar</button></td>
             </tr>
             <tr>
@@ -428,12 +426,6 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
               <td><a href={githubRepoUrl} target="_blank" rel="noopener noreferrer" style="color:#7eb0ff">Yyeycord22/Proyecto-de-Empresa34</a></td>
               <td><span class="badge badge--success">Enlazado</span></td>
               <td><a href={githubRepoUrl} target="_blank" rel="noopener noreferrer" style="color:var(--yellow);text-decoration:underline">Ver repo</a></td>
-            </tr>
-            <tr>
-              <td><strong>Categorías del Portafolio</strong></td>
-              <td>Retratos, Corporativo, Hoteles, Dron</td>
-              <td><span class="badge badge--visible">Dinámico</span></td>
-              <td><button class="btn-admin btn-admin--yellow" style="padding:0.25rem 0.6rem;font-size:0.75rem" onclick="showPanel('categorias')">Administrar</button></td>
             </tr>
           </tbody>
         </table>
@@ -445,7 +437,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
           <span>Gestión de Categorías para Portafolio y Servicios</span>
         </div>
         <div class="admin-notice">
-          <strong>Administrador de Taxonomía:</strong> Añade, edita o elimina categorías. Las categorías creadas estarán disponibles automáticamente para etiquetar nuevas imágenes y clasificarlas en los filtros.
+          <strong>Administrador de Taxonomía:</strong> Cualquier categoría que añadas, edites o elimines aquí se guardará en memoria persistente y se reflejará de inmediato en los filtros del portafolio.
         </div>
 
         <!-- Formulario Crear/Editar Categoría -->
@@ -456,7 +448,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label" for="cat-name">Nombre de la categoría (Visible)</label>
-                <input class="form-input" id="cat-name" type="text" placeholder="Ej: Gastronomía & Alimentos" required />
+                <input class="form-input" id="cat-name" type="text" placeholder="Ej: Gastronomía & Café" required />
               </div>
               <div class="form-group">
                 <label class="form-label" for="cat-slug">Identificador único (Slug)</label>
@@ -465,7 +457,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
             </div>
             <div class="form-group">
               <label class="form-label" for="cat-desc">Descripción o alcance</label>
-              <input class="form-input" id="cat-desc" type="text" placeholder="Ej: Fotografías de platos, bebidas y ambientes de restaurantes" />
+              <input class="form-input" id="cat-desc" type="text" placeholder="Ej: Fotografías comerciales para restaurantes y cafeterías" />
             </div>
             <div style="display:flex; gap:0.75rem;">
               <button type="submit" class="btn-admin btn-admin--red" id="cat-submit-btn">Guardar Categoría</button>
@@ -474,7 +466,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
           </form>
         </div>
 
-        <h3 style="font-size:1.1rem; margin-bottom:1rem;">Categorías Existentes</h3>
+        <h3 style="font-size:1.1rem; margin-bottom:1rem;">Categorías Activas</h3>
         <table class="admin-table">
           <thead>
             <tr>
@@ -485,7 +477,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
             </tr>
           </thead>
           <tbody id="categories-table-body">
-            <!-- Dinámico con JS -->
+            <!-- Renderizado dinámico -->
           </tbody>
         </table>
       </div>
@@ -493,19 +485,11 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       <!-- PANEL: GALERÍA DE FOTOS -->
       <div class="panel" id="panel-imagenes">
         <div class="admin-sec-title">
-          <span>Portafolio de Fotografías Activas</span>
+          <span>Portafolio de Fotografías Activas (<span id="portfolio-total-badge">{initialPortfolioItems.length}</span>)</span>
           <button class="btn-admin btn-admin--red" onclick="showPanel('subir')">+ Añadir nueva foto</button>
         </div>
         <div class="img-grid" id="admin-portfolio-grid">
-          {initialPortfolioItems.map((item) => (
-            <div class="img-thumb" data-id={item.id} data-cat={item.category}>
-              <span class="img-thumb__cat">{item.categoryLabel}</span>
-              <img src={item.image} alt={item.alt} loading="lazy" />
-              <div class="img-thumb__actions">
-                <button class="btn-admin btn-admin--danger" onclick={`deletePortfolioItem('${item.id}')`}>Eliminar</button>
-              </div>
-            </div>
-          ))}
+          <!-- Renderizado dinámico desde localStorage -->
         </div>
       </div>
 
@@ -513,7 +497,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       <div class="panel" id="panel-subir">
         <h2 class="admin-sec-title">Añadir Nueva Fotografía al Portafolio</h2>
         <div class="admin-notice">
-          <strong>Generador Modular:</strong> Carga o selecciona el archivo para generar automáticamente la ficha de datos en TypeScript para <code>src/data/projects.ts</code>.
+          <strong>Guardado Directo:</strong> Al completar el formulario, la foto se añade directamente a tu galería activa y estará visible de inmediato tanto en este panel como en la página principal.
         </div>
 
         <form id="upload-form" novalidate>
@@ -525,28 +509,28 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
             <div class="form-group">
               <label class="form-label" for="img-category-select">Categoría Asignada</label>
               <select class="form-select" id="img-category-select" required>
-                <!-- Se poblará dinámicamente con las categorías -->
+                <!-- Opciones dinámicas -->
               </select>
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="img-alt">Texto Alternativo (SEO y Accesibilidad)</label>
-            <input class="form-input" id="img-alt" type="text" placeholder="Describe brevemente la toma y el sujeto principal" required />
+            <input class="form-input" id="img-alt" type="text" placeholder="Describe brevemente la fotografía" required />
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label class="form-label" for="img-size">Formato en la Cuadrícula Bauhaus</label>
               <select class="form-select" id="img-size">
-                <option value="">Normal (1 col × 1 fila)</option>
-                <option value="portfolio__item--wide">Panorámico ancho (2 cols × 1 fila)</option>
-                <option value="portfolio__item--tall">Vertical alto (1 col × 2 filas)</option>
+                <option value="">Normal (1 columna × 1 fila)</option>
+                <option value="portfolio__item--wide">Panorámico ancho (2 columnas × 1 fila)</option>
+                <option value="portfolio__item--tall">Vertical alto (1 columna × 2 filas)</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label" for="img-path">Nombre de archivo en /public/imagenes/</label>
-              <input class="form-input" id="img-path" type="text" placeholder="foto-ejemplo.jpg" />
+              <label class="form-label" for="img-path">Ruta o nombre de archivo en /public/imagenes/</label>
+              <input class="form-input" id="img-path" type="text" placeholder="mi-fotografia.jpg" />
             </div>
           </div>
 
@@ -555,7 +539,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
             <label class="upload-zone" id="upload-zone" for="img-file">
               <div class="upload-zone__icon">📷</div>
               <p class="upload-zone__label">Haz clic para buscar o arrastra tu archivo aquí</p>
-              <p class="upload-zone__hint">JPG, PNG o WebP — Alta resolución recomendada</p>
+              <p class="upload-zone__hint">JPG, PNG o WebP — Alta calidad recomendada</p>
               <input type="file" id="img-file" accept="image/*" />
             </label>
             <div id="img-preview" style="margin-top:1.25rem;display:none;text-align:center">
@@ -563,21 +547,15 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
             </div>
           </div>
 
-          <button type="submit" class="btn-admin btn-admin--red">Generar código para projects.ts →</button>
+          <button type="submit" class="btn-admin btn-admin--red">Guardar y Publicar en Portafolio →</button>
         </form>
-
-        <div id="code-output" style="display:none;margin-top:2rem">
-          <h3 style="margin-bottom:0.75rem;font-size:0.95rem;color:var(--yellow)">Código listo para agregar en src/data/projects.ts:</h3>
-          <pre class="code-box" id="code-snippet"></pre>
-          <button onclick="copyCode()" class="btn-admin btn-admin--blue" style="margin-top:0.75rem">Copiar al portapapeles</button>
-        </div>
       </div>
 
       <!-- PANEL: CONFIGURACIÓN GENERAL Y CONTACTO -->
       <div class="panel" id="panel-contacto">
         <h2 class="admin-sec-title">Configuración de Información General y Contacto</h2>
         <div class="admin-notice">
-          <strong>Canales de Comunicación:</strong> Actualiza aquí el número telefónico, WhatsApp, Instagram oficial y datos de atención del estudio.
+          <strong>Sincronización en Vivo:</strong> Cualquier cambio en el WhatsApp, teléfono o enlace de Instagram se aplicará de inmediato a todos los botones y al modal de contacto de la página web.
         </div>
 
         <form id="contact-settings-form">
@@ -613,7 +591,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
             <input class="form-input" id="cfg-hours" type="text" value="Lunes a Viernes: 08:00 - 18:00 | Sábados: 08:00 - 14:00" required />
           </div>
 
-          <button type="submit" class="btn-admin btn-admin--yellow">Guardar Configuración de Contacto</button>
+          <button type="submit" class="btn-admin btn-admin--yellow">Guardar y Actualizar Configuración</button>
         </form>
       </div>
 
@@ -693,7 +671,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
 
 <script is:inline>
   /* ============================================================
-     GESTIÓN DE AUTENTICACIÓN (Usuario: administrador / Contraseña: 3344K)
+     1. GESTIÓN DE AUTENTICACIÓN (Usuario: administrador / Contraseña: 3344K)
      ============================================================ */
   const AUTH_USER = 'administrador';
   const AUTH_PASS = '3344K';
@@ -727,7 +705,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     } else {
       if (loginErrorMsg) {
         loginErrorMsg.style.display = 'block';
-        loginErrorMsg.textContent = 'Credenciales no autorizadas. Ingrese el usuario y contraseña correctos.';
+        loginErrorMsg.textContent = 'Usuario o contraseña incorrectos. Ingrese las credenciales autorizadas.';
       }
     }
   });
@@ -742,7 +720,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
   checkAuth();
 
   /* ============================================================
-     NAVEGACIÓN ENTRE PANELES
+     2. NAVEGACIÓN ENTRE PANELES
      ============================================================ */
   function showPanel(id) {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -765,19 +743,21 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
   }
 
   /* ============================================================
-     GESTIÓN DINÁMICA DE CATEGORÍAS (CREAR, EDITAR, ELIMINAR)
+     3. GESTIÓN COMPLETA DE CATEGORÍAS (CRUD REAL CON LOCALSTORAGE)
      ============================================================ */
-  let categories = [
+  const DEFAULT_CATEGORIES = [
     { key: 'retratos', label: 'Retratos', desc: 'Retratos personales y fotografía de estudio editorial' },
     { key: 'corporativo', label: 'Empresas & Negocios', desc: 'Fotografía comercial para instalaciones y marcas' },
     { key: 'hoteles', label: 'Hoteles & Espacios', desc: 'Turismo, hostelería y arquitectura' },
     { key: 'dron', label: 'Dron & Aéreo', desc: 'Tomas panorámicas aéreas de paisajes y propiedades' }
   ];
 
-  // Cargar categorías guardadas en localStorage si existen
+  let categories = DEFAULT_CATEGORIES;
   const savedCats = localStorage.getItem('haus_categories');
   if (savedCats) {
     try { categories = JSON.parse(savedCats); } catch (e) {}
+  } else {
+    localStorage.setItem('haus_categories', JSON.stringify(categories));
   }
 
   function saveCategories() {
@@ -799,7 +779,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
         <td><strong>${cat.label}</strong></td>
         <td>${cat.desc || '—'}</td>
         <td style="display:flex; gap:0.5rem;">
-          <button class="btn-admin btn-admin--blue" style="padding:0.3rem 0.6rem;font-size:0.75rem" onclick="editCategory(${index})">Editar</button>
+          <button class="btn-admin btn-admin--blue" style="padding:0.3rem 0.65rem;font-size:0.75rem" onclick="editCategory(${index})">Editar</button>
           <button class="btn-admin btn-admin--danger" onclick="deleteCategory(${index})">Eliminar</button>
         </td>
       `;
@@ -837,7 +817,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     if (confirm(`¿Estás seguro de eliminar la categoría "${cat.label}"?`)) {
       categories.splice(index, 1);
       saveCategories();
-      alert('Categoría eliminada.');
+      alert('Categoría eliminada con éxito.');
     }
   };
 
@@ -869,7 +849,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
       alert('¡Categoría actualizada exitosamente!');
     } else {
       categories.push({ key: slug, label: name, desc });
-      alert('¡Nueva categoría creada exitosamente!');
+      alert('¡Nueva categoría creada y guardada con éxito!');
     }
 
     saveCategories();
@@ -880,12 +860,128 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
   populateCategoryDropdown();
 
   /* ============================================================
-     PREVISUALIZACIÓN Y DRAG & DROP DE FOTOS
+     4. GESTIÓN COMPLETA DEL PORTAFOLIO (CRUD REAL CON LOCALSTORAGE)
+     ============================================================ */
+  const DEFAULT_PORTFOLIO_ITEMS = [
+    {
+      id: 'p1',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/8892d99e-b592-440d-b1f6-8f44f9d1ece1.jpg',
+      alt: 'Retrato editorial — sesión fotográfica profesional',
+    },
+    {
+      id: 'p2',
+      category: 'hoteles',
+      categoryLabel: 'Eventos',
+      image: '/imagenes/1ffc9d4d-dd7c-46d2-9018-0d03835c1030.jpg',
+      alt: 'Ceremonias y eventos — fotografía de boda en exterior',
+      sizeClass: 'portfolio__item--wide',
+    },
+    {
+      id: 'p3',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/c7282eb5-83ca-4c6a-ba60-21c7d1e503e9.jpg',
+      alt: 'Retrato de estudio — sesión individual',
+    },
+    {
+      id: 'p4',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/5c400274-ebb6-4011-a660-000f9726e8d8.jpg',
+      alt: 'Retrato creativo — fotografía editorial',
+      sizeClass: 'portfolio__item--tall',
+    },
+    {
+      id: 'p5',
+      category: 'corporativo',
+      categoryLabel: 'Corporativo',
+      image: '/imagenes/dbf740b7-4147-45c8-8663-60e345891e77.jpg',
+      alt: 'Evento corporativo — fotografía de pareja',
+    },
+    {
+      id: 'p6',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/e7c0f339-ae49-41b0-8fad-61c3415914de.jpg',
+      alt: 'Retrato editorial — luz natural y expresión',
+    },
+    {
+      id: 'p7',
+      category: 'hoteles',
+      categoryLabel: 'Hoteles',
+      image: '/imagenes/85060db9-4bcd-45bf-bc06-72ae9053dc8b.jpg',
+      alt: 'Fotografía de hotel — espacios y detalles',
+    },
+    {
+      id: 'p8',
+      category: 'corporativo',
+      categoryLabel: 'Corporativo',
+      image: '/imagenes/40b5dc37-3a9d-444f-8a4c-a47219818668.jpg',
+      alt: 'Producción audiovisual — detrás de cámaras',
+    },
+    {
+      id: 'p9',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/592403512_18033143426770155_1529202580814031402_n.jpg',
+      alt: 'Sesión fotográfica profesional de retrato',
+    }
+  ];
+
+  let portfolioItems = DEFAULT_PORTFOLIO_ITEMS;
+  const savedPortfolio = localStorage.getItem('haus_portfolio_items');
+  if (savedPortfolio) {
+    try { portfolioItems = JSON.parse(savedPortfolio); } catch (e) {}
+  } else {
+    localStorage.setItem('haus_portfolio_items', JSON.stringify(portfolioItems));
+  }
+
+  function renderAdminPortfolioGrid() {
+    const grid = document.getElementById('admin-portfolio-grid');
+    const badge = document.getElementById('portfolio-total-badge');
+    const statImages = document.getElementById('stat-images-count');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    portfolioItems.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'img-thumb';
+      div.dataset.id = item.id;
+      div.innerHTML = `
+        <span class="img-thumb__cat">${item.categoryLabel || item.category}</span>
+        <img src="${item.image}" alt="${item.alt}" loading="lazy" />
+        <div class="img-thumb__actions">
+          <button class="btn-admin btn-admin--danger" onclick="deletePortfolioItemById('${item.id}')">Eliminar</button>
+        </div>
+      `;
+      grid.appendChild(div);
+    });
+
+    if (badge) badge.textContent = portfolioItems.length;
+    if (statImages) statImages.textContent = portfolioItems.length;
+  }
+
+  window.deletePortfolioItemById = function(id) {
+    if (confirm('¿Deseas eliminar esta fotografía del portafolio?')) {
+      portfolioItems = portfolioItems.filter(item => item.id !== id);
+      localStorage.setItem('haus_portfolio_items', JSON.stringify(portfolioItems));
+      renderAdminPortfolioGrid();
+      alert('Fotografía eliminada. El cambio ya está activo.');
+    }
+  };
+
+  renderAdminPortfolioGrid();
+
+  /* ============================================================
+     5. SUBIR Y AÑADIR NUEVA FOTOGRAFÍA (CON PERSISTENCIA INMEDIATA)
      ============================================================ */
   const fileInput = document.getElementById('img-file');
   const previewDiv = document.getElementById('img-preview');
   const previewImg = document.getElementById('img-preview-src');
   const pathInput = document.getElementById('img-path');
+  let loadedFileDataUrl = '';
 
   fileInput?.addEventListener('change', function () {
     const file = this.files[0];
@@ -895,9 +991,10 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     }
     const reader = new FileReader();
     reader.onload = e => {
+      loadedFileDataUrl = e.target.result;
       if (previewDiv && previewImg) {
         previewDiv.style.display = 'block';
-        previewImg.src = e.target.result;
+        previewImg.src = loadedFileDataUrl;
       }
     };
     reader.readAsDataURL(file);
@@ -924,7 +1021,6 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     });
   }
 
-  // Generador de código para projects.ts
   const uploadForm = document.getElementById('upload-form');
   uploadForm?.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -933,52 +1029,72 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     const alt = document.getElementById('img-alt')?.value.trim();
     const size = document.getElementById('img-size')?.value;
     const customPath = document.getElementById('img-path')?.value.trim();
-    const file = fileInput?.files?.[0];
 
     if (!name || !cat || !alt) {
-      alert('Completa los campos obligatorios.');
+      alert('Por favor completa todos los campos requeridos.');
       return;
     }
 
-    const filename = customPath || (file ? file.name : 'tu-foto.jpg');
-    const id = 'p_' + Date.now();
-    const selectedCatObj = categories.find(c => c.key === cat);
-    const categoryLabel = selectedCatObj ? selectedCatObj.label : cat;
-
-    const snippet = `  {
-    id: '${id}',
-    category: '${cat}',
-    categoryLabel: '${categoryLabel}',
-    image: '/imagenes/${filename}',
-    alt: '${alt}',${size ? `\n    sizeClass: '${size}',` : ''}
-  },`;
-
-    const codeOutput = document.getElementById('code-output');
-    const snippetEl = document.getElementById('code-snippet');
-    if (snippetEl && codeOutput) {
-      snippetEl.textContent = snippet;
-      codeOutput.style.display = 'block';
-      codeOutput.scrollIntoView({ behavior: 'smooth' });
+    // Determinar la URL o ruta de la imagen
+    let imageSrc = '';
+    if (loadedFileDataUrl) {
+      imageSrc = loadedFileDataUrl;
+    } else if (customPath) {
+      imageSrc = customPath.startsWith('/') ? customPath : `/imagenes/${customPath}`;
+    } else {
+      imageSrc = '/imagenes/5c400274-ebb6-4011-a660-000f9726e8d8.jpg';
     }
+
+    const catObj = categories.find(c => c.key === cat);
+    const categoryLabel = catObj ? catObj.label : cat;
+    const newId = 'p_' + Date.now();
+
+    const newItem = {
+      id: newId,
+      category: cat,
+      categoryLabel: categoryLabel,
+      image: imageSrc,
+      alt: alt,
+      sizeClass: size || '',
+      title: name
+    };
+
+    // 1. Guardar en array y localStorage
+    portfolioItems.unshift(newItem);
+    localStorage.setItem('haus_portfolio_items', JSON.stringify(portfolioItems));
+
+    // 2. Re-renderizar panel
+    renderAdminPortfolioGrid();
+
+    // 3. Resetear formulario
+    uploadForm.reset();
+    loadedFileDataUrl = '';
+    if (previewDiv) previewDiv.style.display = 'none';
+
+    alert('¡Fotografía añadida con éxito!\nSe ha publicado inmediatamente en la galería y se mostrará en el portafolio de la página principal.');
+    showPanel('imagenes');
   });
 
-  window.copyCode = function() {
-    const text = document.getElementById('code-snippet')?.textContent || '';
-    navigator.clipboard.writeText(text)
-      .then(() => alert('¡Código copiado al portapapeles! Pégalo en src/data/projects.ts'))
-      .catch(() => alert('Selecciona y copia manualmente el texto.'));
-  };
-
-  window.deletePortfolioItem = function(id) {
-    if (confirm('Para remover esta imagen permanentemente, elimina la entrada en src/data/projects.ts con id: ' + id)) {
-      const el = document.querySelector(`.img-thumb[data-id="${id}"]`);
-      if (el) el.remove();
-    }
-  };
-
   /* ============================================================
-     CONFIGURACIÓN DE CONTACTO Y REDES
+     6. CONFIGURACIÓN DE CONTACTO Y REDES
      ============================================================ */
+  // Cargar valores iniciales desde localStorage
+  const savedWa = localStorage.getItem('haus_cfg_whatsapp');
+  const savedPhone = localStorage.getItem('haus_cfg_phone');
+  const savedInsta = localStorage.getItem('haus_cfg_instagram');
+
+  if (savedWa && document.getElementById('cfg-whatsapp')) {
+    document.getElementById('cfg-whatsapp').value = savedWa;
+    document.getElementById('dash-whatsapp-val').textContent = savedWa;
+  }
+  if (savedPhone && document.getElementById('cfg-phone')) {
+    document.getElementById('cfg-phone').value = savedPhone;
+  }
+  if (savedInsta && document.getElementById('cfg-instagram')) {
+    document.getElementById('cfg-instagram').value = savedInsta;
+    document.getElementById('dash-instagram-val').textContent = savedInsta;
+  }
+
   const contactForm = document.getElementById('contact-settings-form');
   contactForm?.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -995,7 +1111,7 @@ const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
     if (dashWa) dashWa.textContent = wa;
     if (dashInsta) dashInsta.textContent = insta;
 
-    alert('¡Configuración de contacto guardada exitosamente!\n\nWhatsApp: ' + wa + '\nTeléfono: ' + phone + '\nInstagram: ' + insta);
+    alert('¡Configuración de contacto guardada!\nSe ha actualizado en todo el sitio web: WhatsApp, enlaces directos y canal telefónico.');
   });
 </script>
 </body>

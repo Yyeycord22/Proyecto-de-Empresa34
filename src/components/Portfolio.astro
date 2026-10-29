@@ -10,7 +10,7 @@ import { portfolioItems, portfolioFilters } from '../data/projects';
         <span class="label label--light">PORTAFOLIO</span>
         <h2 class="portfolio__title" id="portfolio-title">Nuestro trabajo en imágenes.</h2>
       </div>
-      <div class="portfolio__filters" role="group" aria-label="Filtros de portafolio">
+      <div class="portfolio__filters" id="portfolio-filters" role="group" aria-label="Filtros de portafolio">
         {portfolioFilters.map((filter, idx) => (
           <button 
             class={`filter-btn ${idx === 0 ? 'active' : ''}`} 
