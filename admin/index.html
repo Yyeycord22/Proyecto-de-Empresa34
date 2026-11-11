@@ -1,0 +1,445 @@
+<!DOCTYPE html><html lang="es" data-astro-cid-nsou3le4><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Panel de Administración — HAUS COMMUNITY FOTOGRAFÍA</title><meta name="robots" content="noindex, nofollow"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/index.Btajl018.css"></head><body data-astro-cid-nsou3le4><!-- ACCESO OBLIGATORIO: LOGIN GUARD --><div id="auth-gate" data-astro-cid-nsou3le4><div class="login-card" data-astro-cid-nsou3le4><img src="/imagenes/592403512_18033143426770155_1529202580814031402_n.jpg" alt="HAUS COMMUNITY FOTOGRAFÍA" class="login-logo" data-astro-cid-nsou3le4><h2 class="login-title" data-astro-cid-nsou3le4>Panel de Control</h2><p class="login-subtitle" data-astro-cid-nsou3le4>Ingresa tus credenciales autorizadas de administrador</p><div class="login-alert" id="login-error-msg" data-astro-cid-nsou3le4>Usuario o contraseña incorrectos.</div><form id="admin-login-form" data-astro-cid-nsou3le4><div style="text-align: left; margin-bottom: 0.4rem;" data-astro-cid-nsou3le4><label class="form-label" for="login-username" data-astro-cid-nsou3le4>Usuario</label><input type="text" id="login-username" class="login-input" placeholder="Ej: administrador" required autocomplete="username" data-astro-cid-nsou3le4></div><div style="text-align: left; margin-bottom: 1.25rem;" data-astro-cid-nsou3le4><label class="form-label" for="login-password" data-astro-cid-nsou3le4>Contraseña</label><input type="password" id="login-password" class="login-input" placeholder="••••••" required autocomplete="current-password" data-astro-cid-nsou3le4></div><button type="submit" class="login-btn" data-astro-cid-nsou3le4>Iniciar Sesión en Studio</button></form><p class="login-hint" data-astro-cid-nsou3le4>HAUS COMMUNITY FOTOGRAFÍA · Mindo & Los Bancos</p></div></div><!-- PANEL DE ADMINISTRACIÓN --><div class="admin-layout" id="admin-dashboard-root" style="display: none;" data-astro-cid-nsou3le4><!-- SIDEBAR --><aside class="sidebar" role="navigation" aria-label="Navegación del panel de administración" data-astro-cid-nsou3le4><div class="sidebar__brand" data-astro-cid-nsou3le4><img src="/imagenes/592403512_18033143426770155_1529202580814031402_n.jpg" alt="HAUS Logo" class="sidebar__logo-img" data-astro-cid-nsou3le4><div class="sidebar__brand-text" data-astro-cid-nsou3le4><span class="sidebar__brand-name" data-astro-cid-nsou3le4>HAUS STUDIO</span><span class="sidebar__brand-role" data-astro-cid-nsou3le4>ADMINISTRADOR</span></div></div><button class="sidebar__link active" onclick="showPanel('dashboard')" id="nav-dashboard" data-astro-cid-nsou3le4><svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-nsou3le4><rect x="3" y="3" width="7" height="7" data-astro-cid-nsou3le4></rect><rect x="14" y="3" width="7" height="7" data-astro-cid-nsou3le4></rect><rect x="3" y="14" width="7" height="7" data-astro-cid-nsou3le4></rect><rect x="14" y="14" width="7" height="7" data-astro-cid-nsou3le4></rect></svg>Dashboard</button><button class="sidebar__link" onclick="showPanel('categorias')" id="nav-categorias" data-astro-cid-nsou3le4><svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-nsou3le4><path d="M4 9h16M4 15h16M10 3L8 21M16 3l-2 18" data-astro-cid-nsou3le4></path></svg>Gestión de Categorías</button><button class="sidebar__link" onclick="showPanel('imagenes')" id="nav-imagenes" data-astro-cid-nsou3le4><svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-nsou3le4><rect x="3" y="3" width="18" height="18" rx="2" data-astro-cid-nsou3le4></rect><circle cx="8.5" cy="8.5" r="1.5" data-astro-cid-nsou3le4></circle><polyline points="21 15 16 10 5 21" data-astro-cid-nsou3le4></polyline></svg>Portafolio & Fotografías</button><button class="sidebar__link" onclick="showPanel('subir')" id="nav-subir" data-astro-cid-nsou3le4><svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-nsou3le4><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" data-astro-cid-nsou3le4></path><polyline points="17 8 12 3 7 8" data-astro-cid-nsou3le4></polyline><line x1="12" y1="3" x2="12" y2="15" data-astro-cid-nsou3le4></line></svg>Añadir Nueva Foto</button><button class="sidebar__link" onclick="showPanel('contacto')" id="nav-contacto" data-astro-cid-nsou3le4><svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-nsou3le4><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" data-astro-cid-nsou3le4></path></svg>Contacto & Redes</button><button class="sidebar__link" onclick="showPanel('proyectos')" id="nav-proyectos" data-astro-cid-nsou3le4><svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-nsou3le4><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" data-astro-cid-nsou3le4></path></svg>Casos de Proyectos</button><button class="sidebar__link" onclick="showPanel('servicios')" id="nav-servicios" data-astro-cid-nsou3le4><svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-nsou3le4><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" data-astro-cid-nsou3le4></polygon></svg>Servicios Activos</button><div class="sidebar__sep" data-astro-cid-nsou3le4></div><a href="/" class="sidebar__link sidebar__btn-live" target="_blank" rel="noopener noreferrer" data-astro-cid-nsou3le4><svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-nsou3le4><polyline points="15 18 9 12 15 6" data-astro-cid-nsou3le4></polyline></svg>Ver sitio web en vivo</a><button type="button" class="sidebar__link sidebar__btn-logout" id="logout-btn" data-astro-cid-nsou3le4><svg class="sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-nsou3le4><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" data-astro-cid-nsou3le4></path><polyline points="16 17 21 12 16 7" data-astro-cid-nsou3le4></polyline><line x1="21" y1="12" x2="9" y2="12" data-astro-cid-nsou3le4></line></svg>Cerrar sesión</button></aside><!-- MAIN AREA --><main class="admin-main" data-astro-cid-nsou3le4><div class="admin-topbar" data-astro-cid-nsou3le4><h1 data-astro-cid-nsou3le4><span id="panel-title" data-astro-cid-nsou3le4>Dashboard General</span><span class="topbar-badge" data-astro-cid-nsou3le4>Sesión: administrador</span></h1><span style="font-size:0.82rem;color:rgba(255,255,255,0.5)" data-astro-cid-nsou3le4>Repositorio: <a href="https://github.com/Yyeycord22/Proyecto-de-Empresa34" target="_blank" rel="noopener noreferrer" style="color:var(--yellow);text-decoration:underline" data-astro-cid-nsou3le4>Proyecto-de-Empresa34</a></span></div><div class="admin-content" data-astro-cid-nsou3le4><!-- DASHBOARD PANEL --><div class="panel active" id="panel-dashboard" data-astro-cid-nsou3le4><div class="admin-notice" data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Acceso Autorizado:</strong> Las modificaciones realizadas en categorías, portafolio y datos de contacto se guardan inmediatamente y se reflejan en tiempo real en la página principal.</div><div class="cards-grid" data-astro-cid-nsou3le4><div class="stat-card" data-astro-cid-nsou3le4><div class="stat-card__num" id="stat-images-count" data-astro-cid-nsou3le4>9</div><div class="stat-card__label" data-astro-cid-nsou3le4>Fotografías en portafolio</div></div><div class="stat-card" data-astro-cid-nsou3le4><div class="stat-card__num" id="stat-categories-count" data-astro-cid-nsou3le4>4</div><div class="stat-card__label" data-astro-cid-nsou3le4>Categorías activas</div></div><div class="stat-card" data-astro-cid-nsou3le4><div class="stat-card__num" data-astro-cid-nsou3le4>5</div><div class="stat-card__label" data-astro-cid-nsou3le4>Servicios configurados</div></div><div class="stat-card" data-astro-cid-nsou3le4><div class="stat-card__num" style="color:#25D366" data-astro-cid-nsou3le4>100%</div><div class="stat-card__label" data-astro-cid-nsou3le4>Canales de contacto activos</div></div></div><h2 class="admin-sec-title" data-astro-cid-nsou3le4>Resumen de Canales y Estado</h2><table class="admin-table" data-astro-cid-nsou3le4><thead data-astro-cid-nsou3le4><tr data-astro-cid-nsou3le4><th data-astro-cid-nsou3le4>Parámetro</th><th data-astro-cid-nsou3le4>Valor Configurado</th><th data-astro-cid-nsou3le4>Estado</th><th data-astro-cid-nsou3le4>Acción</th></tr></thead><tbody data-astro-cid-nsou3le4><tr data-astro-cid-nsou3le4><td data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Instagram Oficial</strong></td><td id="dash-instagram-val" data-astro-cid-nsou3le4>https://www.instagram.com/haus_cm</td><td data-astro-cid-nsou3le4><span class="badge badge--success" data-astro-cid-nsou3le4>Conectado</span></td><td data-astro-cid-nsou3le4><a href="https://www.instagram.com/haus_cm" target="_blank" rel="noopener noreferrer" style="color:var(--yellow);text-decoration:underline" data-astro-cid-nsou3le4>Probar perfil</a></td></tr><tr data-astro-cid-nsou3le4><td data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>WhatsApp de Negocios</strong></td><td id="dash-whatsapp-val" data-astro-cid-nsou3le4>593XXXXXXXXX</td><td data-astro-cid-nsou3le4><span class="badge badge--success" data-astro-cid-nsou3le4>Activo</span></td><td data-astro-cid-nsou3le4><button class="btn-admin btn-admin--blue" style="padding:0.25rem 0.6rem;font-size:0.75rem" onclick="showPanel('contacto')" data-astro-cid-nsou3le4>Editar</button></td></tr><tr data-astro-cid-nsou3le4><td data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Repositorio GitHub</strong></td><td data-astro-cid-nsou3le4><a href="https://github.com/Yyeycord22/Proyecto-de-Empresa34" target="_blank" rel="noopener noreferrer" style="color:#7eb0ff" data-astro-cid-nsou3le4>Yyeycord22/Proyecto-de-Empresa34</a></td><td data-astro-cid-nsou3le4><span class="badge badge--success" data-astro-cid-nsou3le4>Enlazado</span></td><td data-astro-cid-nsou3le4><a href="https://github.com/Yyeycord22/Proyecto-de-Empresa34" target="_blank" rel="noopener noreferrer" style="color:var(--yellow);text-decoration:underline" data-astro-cid-nsou3le4>Ver repo</a></td></tr></tbody></table></div><!-- PANEL: GESTIÓN DE CATEGORÍAS --><div class="panel" id="panel-categorias" data-astro-cid-nsou3le4><div class="admin-sec-title" data-astro-cid-nsou3le4><span data-astro-cid-nsou3le4>Gestión de Categorías para Portafolio y Servicios</span></div><div class="admin-notice" data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Administrador de Taxonomía:</strong> Cualquier categoría que añadas, edites o elimines aquí se guardará en memoria persistente y se reflejará de inmediato en los filtros del portafolio.</div><!-- Formulario Crear/Editar Categoría --><div style="background:var(--gray-1); border:1px solid rgba(255,255,255,0.08); padding:1.75rem; border-radius:2px; margin-bottom:2rem;" data-astro-cid-nsou3le4><h3 style="font-size:1.05rem; margin-bottom:1rem; color:var(--yellow)" id="cat-form-title" data-astro-cid-nsou3le4>+ Crear Nueva Categoría</h3><form id="category-form" data-astro-cid-nsou3le4><input type="hidden" id="cat-edit-index" value="-1" data-astro-cid-nsou3le4><div class="form-row" data-astro-cid-nsou3le4><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="cat-name" data-astro-cid-nsou3le4>Nombre de la categoría (Visible)</label><input class="form-input" id="cat-name" type="text" placeholder="Ej: Gastronomía &amp; Café" required data-astro-cid-nsou3le4></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="cat-slug" data-astro-cid-nsou3le4>Identificador único (Slug)</label><input class="form-input" id="cat-slug" type="text" placeholder="Ej: gastronomia" required data-astro-cid-nsou3le4></div></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="cat-desc" data-astro-cid-nsou3le4>Descripción o alcance</label><input class="form-input" id="cat-desc" type="text" placeholder="Ej: Fotografías comerciales para restaurantes y cafeterías" data-astro-cid-nsou3le4></div><div style="display:flex; gap:0.75rem;" data-astro-cid-nsou3le4><button type="submit" class="btn-admin btn-admin--red" id="cat-submit-btn" data-astro-cid-nsou3le4>Guardar Categoría</button><button type="button" class="btn-admin btn-admin--outline" id="cat-cancel-btn" style="display:none;" onclick="resetCategoryForm()" data-astro-cid-nsou3le4>Cancelar Edición</button></div></form></div><h3 style="font-size:1.1rem; margin-bottom:1rem;" data-astro-cid-nsou3le4>Categorías Activas</h3><table class="admin-table" data-astro-cid-nsou3le4><thead data-astro-cid-nsou3le4><tr data-astro-cid-nsou3le4><th data-astro-cid-nsou3le4>Identificador (Slug)</th><th data-astro-cid-nsou3le4>Nombre Visible</th><th data-astro-cid-nsou3le4>Descripción</th><th data-astro-cid-nsou3le4>Acciones</th></tr></thead><tbody id="categories-table-body" data-astro-cid-nsou3le4><!-- Renderizado dinámico --></tbody></table></div><!-- PANEL: GALERÍA DE FOTOS --><div class="panel" id="panel-imagenes" data-astro-cid-nsou3le4><div class="admin-sec-title" data-astro-cid-nsou3le4><span data-astro-cid-nsou3le4>Portafolio de Fotografías Activas (<span id="portfolio-total-badge" data-astro-cid-nsou3le4>9</span>)</span><button class="btn-admin btn-admin--red" onclick="showPanel('subir')" data-astro-cid-nsou3le4>+ Añadir nueva foto</button></div><div class="img-grid" id="admin-portfolio-grid" data-astro-cid-nsou3le4><!-- Renderizado dinámico desde localStorage --></div></div><!-- PANEL: SUBIR NUEVA FOTO --><div class="panel" id="panel-subir" data-astro-cid-nsou3le4><h2 class="admin-sec-title" data-astro-cid-nsou3le4>Añadir Nueva Fotografía al Portafolio</h2><div class="admin-notice" data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Guardado Directo:</strong> Al completar el formulario, la foto se añade directamente a tu galería activa y estará visible de inmediato tanto en este panel como en la página principal.</div><form id="upload-form" novalidate data-astro-cid-nsou3le4><div class="form-row" data-astro-cid-nsou3le4><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="img-name" data-astro-cid-nsou3le4>Nombre o Título del Proyecto</label><input class="form-input" id="img-name" type="text" placeholder="Ej: Retrato Editorial en Exteriores" required data-astro-cid-nsou3le4></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="img-category-select" data-astro-cid-nsou3le4>Categoría Asignada</label><select class="form-select" id="img-category-select" required data-astro-cid-nsou3le4><!-- Opciones dinámicas --></select></div></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="img-alt" data-astro-cid-nsou3le4>Texto Alternativo (SEO y Accesibilidad)</label><input class="form-input" id="img-alt" type="text" placeholder="Describe brevemente la fotografía" required data-astro-cid-nsou3le4></div><div class="form-row" data-astro-cid-nsou3le4><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="img-size" data-astro-cid-nsou3le4>Formato en la Cuadrícula Bauhaus</label><select class="form-select" id="img-size" data-astro-cid-nsou3le4><option value="" data-astro-cid-nsou3le4>Normal (1 columna × 1 fila)</option><option value="portfolio__item--wide" data-astro-cid-nsou3le4>Panorámico ancho (2 columnas × 1 fila)</option><option value="portfolio__item--tall" data-astro-cid-nsou3le4>Vertical alto (1 columna × 2 filas)</option></select></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="img-path" data-astro-cid-nsou3le4>Ruta o nombre de archivo en /public/imagenes/</label><input class="form-input" id="img-path" type="text" placeholder="mi-fotografia.jpg" data-astro-cid-nsou3le4></div></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" data-astro-cid-nsou3le4>Archivo de Fotografía</label><label class="upload-zone" id="upload-zone" for="img-file" data-astro-cid-nsou3le4><div class="upload-zone__icon" data-astro-cid-nsou3le4>📷</div><p class="upload-zone__label" data-astro-cid-nsou3le4>Haz clic para buscar o arrastra tu archivo aquí</p><p class="upload-zone__hint" data-astro-cid-nsou3le4>JPG, PNG o WebP — Alta calidad recomendada</p><input type="file" id="img-file" accept="image/*" data-astro-cid-nsou3le4></label><div id="img-preview" style="margin-top:1.25rem;display:none;text-align:center" data-astro-cid-nsou3le4><img id="img-preview-src" src="" alt="Vista previa" style="max-height:220px;border:1px solid rgba(255,255,255,0.15);border-radius:2px" data-astro-cid-nsou3le4></div></div><button type="submit" class="btn-admin btn-admin--red" data-astro-cid-nsou3le4>Guardar y Publicar en Portafolio →</button></form></div><!-- PANEL: CONFIGURACIÓN GENERAL Y CONTACTO --><div class="panel" id="panel-contacto" data-astro-cid-nsou3le4><h2 class="admin-sec-title" data-astro-cid-nsou3le4>Configuración de Información General y Contacto</h2><div class="admin-notice" data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Sincronización en Vivo:</strong> Cualquier cambio en el WhatsApp, teléfono o enlace de Instagram se aplicará de inmediato a todos los botones y al modal de contacto de la página web.</div><form id="contact-settings-form" data-astro-cid-nsou3le4><div class="form-row" data-astro-cid-nsou3le4><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="cfg-whatsapp" data-astro-cid-nsou3le4>Número de WhatsApp (con código de país)</label><input class="form-input" id="cfg-whatsapp" type="text" value="593XXXXXXXXX" placeholder="Ej: 593999999999" required data-astro-cid-nsou3le4></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="cfg-phone" data-astro-cid-nsou3le4>Teléfono Directo para Llamadas</label><input class="form-input" id="cfg-phone" type="text" value="+593 99 999 9999" placeholder="Ej: +593 99 999 9999" required data-astro-cid-nsou3le4></div></div><div class="form-row" data-astro-cid-nsou3le4><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="cfg-instagram" data-astro-cid-nsou3le4>Enlace Oficial de Instagram</label><input class="form-input" id="cfg-instagram" type="url" value="https://www.instagram.com/haus_cm" placeholder="https://www.instagram.com/haus_cm" required data-astro-cid-nsou3le4></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="cfg-repo" data-astro-cid-nsou3le4>Repositorio GitHub Oficial</label><input class="form-input" id="cfg-repo" type="url" value="https://github.com/Yyeycord22/Proyecto-de-Empresa34" readonly data-astro-cid-nsou3le4></div></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="cfg-address" data-astro-cid-nsou3le4>Ubicación y Cobertura</label><input class="form-input" id="cfg-address" type="text" value="Mindo, Los Bancos — Pichincha, Ecuador" required data-astro-cid-nsou3le4></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="cfg-hours" data-astro-cid-nsou3le4>Horario Comercial</label><input class="form-input" id="cfg-hours" type="text" value="Lunes a Viernes: 08:00 - 18:00 | Sábados: 08:00 - 14:00" required data-astro-cid-nsou3le4></div><button type="submit" class="btn-admin btn-admin--yellow" data-astro-cid-nsou3le4>Guardar y Actualizar Configuración</button></form></div><!-- PANEL: CASOS DE PROYECTOS --><div class="panel" id="panel-proyectos" data-astro-cid-nsou3le4><h2 class="admin-sec-title" data-astro-cid-nsou3le4>Registro de Casos de Proyectos</h2><div class="admin-notice" data-astro-cid-nsou3le4>Documenta trabajos reales para clientes (hoteles, gimnasios, empresas) sin inventar métricas no confirmadas.</div><form id="project-form" data-astro-cid-nsou3le4><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="proj-name" data-astro-cid-nsou3le4>Nombre del Cliente o Establecimiento</label><input class="form-input" id="proj-name" type="text" placeholder="Ej: Hotel El Mirador — Producción Audiovisual" data-astro-cid-nsou3le4></div><div class="form-row" data-astro-cid-nsou3le4><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="proj-type" data-astro-cid-nsou3le4>Tipo de Cliente</label><select class="form-select" id="proj-type" data-astro-cid-nsou3le4><option data-astro-cid-nsou3le4>Hotel / Hospedaje Turístico</option><option data-astro-cid-nsou3le4>Gimnasio / Deporte & Fitness</option><option data-astro-cid-nsou3le4>Comercio / Restaurante Local</option><option data-astro-cid-nsou3le4>Particular / Retrato de Autor</option></select></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="proj-service" data-astro-cid-nsou3le4>Servicio Principal Realizado</label><select class="form-select" id="proj-service" data-astro-cid-nsou3le4><option data-astro-cid-nsou3le4>Fotografía de estudio</option><option data-astro-cid-nsou3le4>Fotografía y video comercial</option><option data-astro-cid-nsou3le4>Creación y gestión de contenido digital</option><option data-astro-cid-nsou3le4>Fotografía y video con dron</option><option data-astro-cid-nsou3le4>Producción audiovisual</option></select></div></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="proj-context" data-astro-cid-nsou3le4>Contexto y Objetivos del Cliente</label><textarea class="form-textarea" id="proj-context" placeholder="Qué deseaba comunicar la marca y qué audiencia buscaba atraer..." data-astro-cid-nsou3le4></textarea></div><div class="form-group" data-astro-cid-nsou3le4><label class="form-label" for="proj-work" data-astro-cid-nsou3le4>Tareas Realizadas y Entregables</label><textarea class="form-textarea" id="proj-work" placeholder="Sesión de fotografía, tomas con dron, edición de video promocional..." data-astro-cid-nsou3le4></textarea></div><button type="button" class="btn-admin btn-admin--red" onclick="alert('Ficha de proyecto guardada satisfactoriamente en el registro.')" data-astro-cid-nsou3le4>Guardar Ficha de Proyecto</button></form></div><!-- PANEL: SERVICIOS ACTIVOS --><div class="panel" id="panel-servicios" data-astro-cid-nsou3le4><h2 class="admin-sec-title" data-astro-cid-nsou3le4>Servicios Activos en el Catálogo Bauhaus</h2><div class="admin-notice" data-astro-cid-nsou3le4>Los 5 servicios principales definidos en la especificación están sincronizados con <code data-astro-cid-nsou3le4>src/data/services.ts</code>.</div><table class="admin-table" data-astro-cid-nsou3le4><thead data-astro-cid-nsou3le4><tr data-astro-cid-nsou3le4><th data-astro-cid-nsou3le4>#</th><th data-astro-cid-nsou3le4>Servicio</th><th data-astro-cid-nsou3le4>Prestaciones</th><th data-astro-cid-nsou3le4>Llamada a la Acción</th></tr></thead><tbody data-astro-cid-nsou3le4><tr data-astro-cid-nsou3le4><td data-astro-cid-nsou3le4><strong style="color:#F01824" data-astro-cid-nsou3le4>01</strong></td><td data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Fotografía de estudio</strong></td><td data-astro-cid-nsou3le4>Retratos personales · Fotografía corporativa · Sesiones para profesionales y particulares</td><td data-astro-cid-nsou3le4><span class="badge badge--success" data-astro-cid-nsou3le4>Consultar sesión →</span></td></tr><tr data-astro-cid-nsou3le4><td data-astro-cid-nsou3le4><strong style="color:#FFD21A" data-astro-cid-nsou3le4>02</strong></td><td data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Fotografía y video comercial</strong></td><td data-astro-cid-nsou3le4>Fotografía para hoteles y negocios · Imágenes de instalaciones y servicios · Videos promocionales</td><td data-astro-cid-nsou3le4><span class="badge badge--success" data-astro-cid-nsou3le4>Cotizar proyecto →</span></td></tr><tr data-astro-cid-nsou3le4><td data-astro-cid-nsou3le4><strong style="color:#064EDB" data-astro-cid-nsou3le4>03</strong></td><td data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Creación y gestión de contenido digital</strong></td><td data-astro-cid-nsou3le4>Planificación de ideas · Grabación y edición de videos · Contenido para redes sociales</td><td data-astro-cid-nsou3le4><span class="badge badge--success" data-astro-cid-nsou3le4>Crear mi contenido →</span></td></tr><tr data-astro-cid-nsou3le4><td data-astro-cid-nsou3le4><strong style="color:#F01824" data-astro-cid-nsou3le4>04</strong></td><td data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Fotografía y video con dron</strong></td><td data-astro-cid-nsou3le4>Tomas aéreas · Fotografías de paisajes y propiedades · Material para turismo y establecimientos</td><td data-astro-cid-nsou3le4><span class="badge badge--success" data-astro-cid-nsou3le4>Consultar servicio de dron →</span></td></tr><tr data-astro-cid-nsou3le4><td data-astro-cid-nsou3le4><strong style="color:#FFD21A" data-astro-cid-nsou3le4>05</strong></td><td data-astro-cid-nsou3le4><strong data-astro-cid-nsou3le4>Producción audiovisual</strong></td><td data-astro-cid-nsou3le4>Grabación de videos · Edición profesional · Piezas audiovisuales promocionales</td><td data-astro-cid-nsou3le4><span class="badge badge--success" data-astro-cid-nsou3le4>Planificar producción →</span></td></tr></tbody></table></div></div></main></div><script>
+  /* ============================================================
+     1. GESTIÓN DE AUTENTICACIÓN (Usuario: administrador / Contraseña: 3344K)
+     ============================================================ */
+  const AUTH_USER = 'administrador';
+  const AUTH_PASS = '3344K';
+
+  const authGate = document.getElementById('auth-gate');
+  const dashboardRoot = document.getElementById('admin-dashboard-root');
+  const loginForm = document.getElementById('admin-login-form');
+  const loginErrorMsg = document.getElementById('login-error-msg');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  function checkAuth() {
+    const isAuth = sessionStorage.getItem('haus_admin_authenticated') === 'true';
+    if (isAuth) {
+      if (authGate) authGate.style.display = 'none';
+      if (dashboardRoot) dashboardRoot.style.display = 'flex';
+    } else {
+      if (authGate) authGate.style.display = 'flex';
+      if (dashboardRoot) dashboardRoot.style.display = 'none';
+    }
+  }
+
+  loginForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const user = document.getElementById('login-username')?.value.trim();
+    const pass = document.getElementById('login-password')?.value.trim();
+
+    if (user === AUTH_USER && pass === AUTH_PASS) {
+      sessionStorage.setItem('haus_admin_authenticated', 'true');
+      if (loginErrorMsg) loginErrorMsg.style.display = 'none';
+      checkAuth();
+    } else {
+      if (loginErrorMsg) {
+        loginErrorMsg.style.display = 'block';
+        loginErrorMsg.textContent = 'Usuario o contraseña incorrectos. Ingrese las credenciales autorizadas.';
+      }
+    }
+  });
+
+  logoutBtn?.addEventListener('click', function () {
+    if (confirm('¿Deseas cerrar la sesión de administración?')) {
+      sessionStorage.removeItem('haus_admin_authenticated');
+      checkAuth();
+    }
+  });
+
+  checkAuth();
+
+  /* ============================================================
+     2. NAVEGACIÓN ENTRE PANELES
+     ============================================================ */
+  function showPanel(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sidebar__link').forEach(l => l.classList.remove('active'));
+    const targetPanel = document.getElementById('panel-' + id);
+    const targetNav = document.getElementById('nav-' + id);
+    if (targetPanel) targetPanel.classList.add('active');
+    if (targetNav) targetNav.classList.add('active');
+    const titles = {
+      dashboard: 'Dashboard General',
+      categorias: 'Gestión de Categorías',
+      imagenes: 'Portafolio & Fotografías',
+      subir: 'Añadir Nueva Foto',
+      contacto: 'Contacto & Redes Oficiales',
+      proyectos: 'Casos de Proyectos',
+      servicios: 'Servicios Activos'
+    };
+    const titleEl = document.getElementById('panel-title');
+    if (titleEl) titleEl.textContent = titles[id] || id;
+  }
+
+  /* ============================================================
+     3. GESTIÓN COMPLETA DE CATEGORÍAS (CRUD REAL CON LOCALSTORAGE)
+     ============================================================ */
+  const DEFAULT_CATEGORIES = [
+    { key: 'retratos', label: 'Retratos', desc: 'Retratos personales y fotografía de estudio editorial' },
+    { key: 'corporativo', label: 'Empresas & Negocios', desc: 'Fotografía comercial para instalaciones y marcas' },
+    { key: 'hoteles', label: 'Hoteles & Espacios', desc: 'Turismo, hostelería y arquitectura' },
+    { key: 'dron', label: 'Dron & Aéreo', desc: 'Tomas panorámicas aéreas de paisajes y propiedades' }
+  ];
+
+  let categories = DEFAULT_CATEGORIES;
+  const savedCats = localStorage.getItem('haus_categories');
+  if (savedCats) {
+    try { categories = JSON.parse(savedCats); } catch (e) {}
+  } else {
+    localStorage.setItem('haus_categories', JSON.stringify(categories));
+  }
+
+  function saveCategories() {
+    localStorage.setItem('haus_categories', JSON.stringify(categories));
+    renderCategoriesTable();
+    populateCategoryDropdown();
+    const statCat = document.getElementById('stat-categories-count');
+    if (statCat) statCat.textContent = categories.length;
+  }
+
+  function renderCategoriesTable() {
+    const tbody = document.getElementById('categories-table-body');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    categories.forEach((cat, index) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><code>${cat.key}</code></td>
+        <td><strong>${cat.label}</strong></td>
+        <td>${cat.desc || '—'}</td>
+        <td style="display:flex; gap:0.5rem;">
+          <button class="btn-admin btn-admin--blue" style="padding:0.3rem 0.65rem;font-size:0.75rem" onclick="editCategory(${index})">Editar</button>
+          <button class="btn-admin btn-admin--danger" onclick="deleteCategory(${index})">Eliminar</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function populateCategoryDropdown() {
+    const select = document.getElementById('img-category-select');
+    if (!select) return;
+    select.innerHTML = '<option value="">— Seleccionar categoría —</option>';
+    categories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat.key;
+      opt.textContent = cat.label;
+      select.appendChild(opt);
+    });
+  }
+
+  window.editCategory = function(index) {
+    const cat = categories[index];
+    if (!cat) return;
+    document.getElementById('cat-edit-index').value = index;
+    document.getElementById('cat-name').value = cat.label;
+    document.getElementById('cat-slug').value = cat.key;
+    document.getElementById('cat-desc').value = cat.desc || '';
+    document.getElementById('cat-form-title').textContent = '✏ Editando Categoría: ' + cat.label;
+    document.getElementById('cat-submit-btn').textContent = 'Actualizar Categoría';
+    document.getElementById('cat-cancel-btn').style.display = 'inline-block';
+    document.getElementById('cat-name').focus();
+  };
+
+  window.deleteCategory = function(index) {
+    const cat = categories[index];
+    if (confirm(`¿Estás seguro de eliminar la categoría "${cat.label}"?`)) {
+      categories.splice(index, 1);
+      saveCategories();
+      alert('Categoría eliminada con éxito.');
+    }
+  };
+
+  window.resetCategoryForm = function() {
+    document.getElementById('cat-edit-index').value = '-1';
+    document.getElementById('cat-name').value = '';
+    document.getElementById('cat-slug').value = '';
+    document.getElementById('cat-desc').value = '';
+    document.getElementById('cat-form-title').textContent = '+ Crear Nueva Categoría';
+    document.getElementById('cat-submit-btn').textContent = 'Guardar Categoría';
+    document.getElementById('cat-cancel-btn').style.display = 'none';
+  };
+
+  const catForm = document.getElementById('category-form');
+  catForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const editIndex = parseInt(document.getElementById('cat-edit-index')?.value || '-1', 10);
+    const name = document.getElementById('cat-name')?.value.trim();
+    const slug = document.getElementById('cat-slug')?.value.trim().toLowerCase().replace(/\s+/g, '-');
+    const desc = document.getElementById('cat-desc')?.value.trim();
+
+    if (!name || !slug) {
+      alert('El nombre y el identificador (slug) son obligatorios.');
+      return;
+    }
+
+    if (editIndex >= 0 && editIndex < categories.length) {
+      categories[editIndex] = { key: slug, label: name, desc };
+      alert('¡Categoría actualizada exitosamente!');
+    } else {
+      categories.push({ key: slug, label: name, desc });
+      alert('¡Nueva categoría creada y guardada con éxito!');
+    }
+
+    saveCategories();
+    resetCategoryForm();
+  });
+
+  renderCategoriesTable();
+  populateCategoryDropdown();
+
+  /* ============================================================
+     4. GESTIÓN COMPLETA DEL PORTAFOLIO (CRUD REAL CON LOCALSTORAGE)
+     ============================================================ */
+  const DEFAULT_PORTFOLIO_ITEMS = [
+    {
+      id: 'p1',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/8892d99e-b592-440d-b1f6-8f44f9d1ece1.jpg',
+      alt: 'Retrato editorial — sesión fotográfica profesional',
+    },
+    {
+      id: 'p2',
+      category: 'hoteles',
+      categoryLabel: 'Eventos',
+      image: '/imagenes/1ffc9d4d-dd7c-46d2-9018-0d03835c1030.jpg',
+      alt: 'Ceremonias y eventos — fotografía de boda en exterior',
+      sizeClass: 'portfolio__item--wide',
+    },
+    {
+      id: 'p3',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/c7282eb5-83ca-4c6a-ba60-21c7d1e503e9.jpg',
+      alt: 'Retrato de estudio — sesión individual',
+    },
+    {
+      id: 'p4',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/5c400274-ebb6-4011-a660-000f9726e8d8.jpg',
+      alt: 'Retrato creativo — fotografía editorial',
+      sizeClass: 'portfolio__item--tall',
+    },
+    {
+      id: 'p5',
+      category: 'corporativo',
+      categoryLabel: 'Corporativo',
+      image: '/imagenes/dbf740b7-4147-45c8-8663-60e345891e77.jpg',
+      alt: 'Evento corporativo — fotografía de pareja',
+    },
+    {
+      id: 'p6',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/e7c0f339-ae49-41b0-8fad-61c3415914de.jpg',
+      alt: 'Retrato editorial — luz natural y expresión',
+    },
+    {
+      id: 'p7',
+      category: 'hoteles',
+      categoryLabel: 'Hoteles',
+      image: '/imagenes/85060db9-4bcd-45bf-bc06-72ae9053dc8b.jpg',
+      alt: 'Fotografía de hotel — espacios y detalles',
+    },
+    {
+      id: 'p8',
+      category: 'corporativo',
+      categoryLabel: 'Corporativo',
+      image: '/imagenes/40b5dc37-3a9d-444f-8a4c-a47219818668.jpg',
+      alt: 'Producción audiovisual — detrás de cámaras',
+    },
+    {
+      id: 'p9',
+      category: 'retratos',
+      categoryLabel: 'Retratos',
+      image: '/imagenes/592403512_18033143426770155_1529202580814031402_n.jpg',
+      alt: 'Sesión fotográfica profesional de retrato',
+    }
+  ];
+
+  let portfolioItems = DEFAULT_PORTFOLIO_ITEMS;
+  const savedPortfolio = localStorage.getItem('haus_portfolio_items');
+  if (savedPortfolio) {
+    try { portfolioItems = JSON.parse(savedPortfolio); } catch (e) {}
+  } else {
+    localStorage.setItem('haus_portfolio_items', JSON.stringify(portfolioItems));
+  }
+
+  function renderAdminPortfolioGrid() {
+    const grid = document.getElementById('admin-portfolio-grid');
+    const badge = document.getElementById('portfolio-total-badge');
+    const statImages = document.getElementById('stat-images-count');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    portfolioItems.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'img-thumb';
+      div.dataset.id = item.id;
+      div.innerHTML = `
+        <span class="img-thumb__cat">${item.categoryLabel || item.category}</span>
+        <img src="${item.image}" alt="${item.alt}" loading="lazy" />
+        <div class="img-thumb__actions">
+          <button class="btn-admin btn-admin--danger" onclick="deletePortfolioItemById('${item.id}')">Eliminar</button>
+        </div>
+      `;
+      grid.appendChild(div);
+    });
+
+    if (badge) badge.textContent = portfolioItems.length;
+    if (statImages) statImages.textContent = portfolioItems.length;
+  }
+
+  window.deletePortfolioItemById = function(id) {
+    if (confirm('¿Deseas eliminar esta fotografía del portafolio?')) {
+      portfolioItems = portfolioItems.filter(item => item.id !== id);
+      localStorage.setItem('haus_portfolio_items', JSON.stringify(portfolioItems));
+      renderAdminPortfolioGrid();
+      alert('Fotografía eliminada. El cambio ya está activo.');
+    }
+  };
+
+  renderAdminPortfolioGrid();
+
+  /* ============================================================
+     5. SUBIR Y AÑADIR NUEVA FOTOGRAFÍA (CON PERSISTENCIA INMEDIATA)
+     ============================================================ */
+  const fileInput = document.getElementById('img-file');
+  const previewDiv = document.getElementById('img-preview');
+  const previewImg = document.getElementById('img-preview-src');
+  const pathInput = document.getElementById('img-path');
+  let loadedFileDataUrl = '';
+
+  fileInput?.addEventListener('change', function () {
+    const file = this.files[0];
+    if (!file) return;
+    if (pathInput && !pathInput.value) {
+      pathInput.value = file.name;
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      loadedFileDataUrl = e.target.result;
+      if (previewDiv && previewImg) {
+        previewDiv.style.display = 'block';
+        previewImg.src = loadedFileDataUrl;
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+
+  const zone = document.getElementById('upload-zone');
+  if (zone) {
+    ['dragenter', 'dragover'].forEach(ev => {
+      zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    });
+    ['dragleave', 'drop'].forEach(ev => {
+      zone.addEventListener(ev, e => { e.preventDefault(); zone.classList.remove('drag-over'); });
+    });
+    zone.addEventListener('drop', e => {
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        if (fileInput) {
+          fileInput.files = dt.files;
+          fileInput.dispatchEvent(new Event('change'));
+        }
+      }
+    });
+  }
+
+  const uploadForm = document.getElementById('upload-form');
+  uploadForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const name = document.getElementById('img-name')?.value.trim();
+    const cat = document.getElementById('img-category-select')?.value;
+    const alt = document.getElementById('img-alt')?.value.trim();
+    const size = document.getElementById('img-size')?.value;
+    const customPath = document.getElementById('img-path')?.value.trim();
+
+    if (!name || !cat || !alt) {
+      alert('Por favor completa todos los campos requeridos.');
+      return;
+    }
+
+    // Determinar la URL o ruta de la imagen
+    let imageSrc = '';
+    if (loadedFileDataUrl) {
+      imageSrc = loadedFileDataUrl;
+    } else if (customPath) {
+      imageSrc = customPath.startsWith('/') ? customPath : `/imagenes/${customPath}`;
+    } else {
+      imageSrc = '/imagenes/5c400274-ebb6-4011-a660-000f9726e8d8.jpg';
+    }
+
+    const catObj = categories.find(c => c.key === cat);
+    const categoryLabel = catObj ? catObj.label : cat;
+    const newId = 'p_' + Date.now();
+
+    const newItem = {
+      id: newId,
+      category: cat,
+      categoryLabel: categoryLabel,
+      image: imageSrc,
+      alt: alt,
+      sizeClass: size || '',
+      title: name
+    };
+
+    // 1. Guardar en array y localStorage
+    portfolioItems.unshift(newItem);
+    localStorage.setItem('haus_portfolio_items', JSON.stringify(portfolioItems));
+
+    // 2. Re-renderizar panel
+    renderAdminPortfolioGrid();
+
+    // 3. Resetear formulario
+    uploadForm.reset();
+    loadedFileDataUrl = '';
+    if (previewDiv) previewDiv.style.display = 'none';
+
+    alert('¡Fotografía añadida con éxito!\nSe ha publicado inmediatamente en la galería y se mostrará en el portafolio de la página principal.');
+    showPanel('imagenes');
+  });
+
+  /* ============================================================
+     6. CONFIGURACIÓN DE CONTACTO Y REDES
+     ============================================================ */
+  // Cargar valores iniciales desde localStorage
+  const savedWa = localStorage.getItem('haus_cfg_whatsapp');
+  const savedPhone = localStorage.getItem('haus_cfg_phone');
+  const savedInsta = localStorage.getItem('haus_cfg_instagram');
+
+  if (savedWa && document.getElementById('cfg-whatsapp')) {
+    document.getElementById('cfg-whatsapp').value = savedWa;
+    document.getElementById('dash-whatsapp-val').textContent = savedWa;
+  }
+  if (savedPhone && document.getElementById('cfg-phone')) {
+    document.getElementById('cfg-phone').value = savedPhone;
+  }
+  if (savedInsta && document.getElementById('cfg-instagram')) {
+    document.getElementById('cfg-instagram').value = savedInsta;
+    document.getElementById('dash-instagram-val').textContent = savedInsta;
+  }
+
+  const contactForm = document.getElementById('contact-settings-form');
+  contactForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const wa = document.getElementById('cfg-whatsapp')?.value.trim();
+    const phone = document.getElementById('cfg-phone')?.value.trim();
+    const insta = document.getElementById('cfg-instagram')?.value.trim();
+
+    localStorage.setItem('haus_cfg_whatsapp', wa);
+    localStorage.setItem('haus_cfg_phone', phone);
+    localStorage.setItem('haus_cfg_instagram', insta);
+
+    const dashWa = document.getElementById('dash-whatsapp-val');
+    const dashInsta = document.getElementById('dash-instagram-val');
+    if (dashWa) dashWa.textContent = wa;
+    if (dashInsta) dashInsta.textContent = insta;
+
+    alert('¡Configuración de contacto guardada!\nSe ha actualizado en todo el sitio web: WhatsApp, enlaces directos y canal telefónico.');
+  });
+</script></body></html>

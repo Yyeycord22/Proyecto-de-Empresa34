@@ -1,0 +1,603 @@
+/* =====================================================================
+   HAUS COMMUNITY · capa estética
+   Tipografía Josefin + transparencias (vidrio) + movimiento suave.
+   Importar DESPUÉS de tu CSS global. Para desactivarla, quita el import.
+   ===================================================================== */
+
+/* ---------- 1. Tokens (ajusta aquí los colores del vidrio y paleta Bauhaus) ---------- */
+:root {
+  --red: #F01824;
+  --yellow: #FFD21A;
+  --blue: #064EDB;
+  --ivory: #F7F5EF;
+  --black: #111111;
+  --white: #FFFFFF;
+  --gray-1: #1A1A1A;
+  --gray-2: #2C2C2C;
+  --gray-3: #888888;
+  --gray-4: #CCCCCC;
+
+  --font-display: 'Josefin Sans', 'Century Gothic', Futura, 'Trebuchet MS', sans-serif;
+  --font-text: 'Josefin Slab', Rockwell, Georgia, serif;
+
+  --fx-ink: #15161b;
+  --fx-ink-soft: rgba(21, 22, 27, 0.76);
+
+  --fx-glass-light: rgba(255, 255, 255, 0.66);
+  --fx-glass-light-edge: rgba(255, 255, 255, 0.85);
+  --fx-glass-dark: rgba(14, 15, 20, 0.52);
+  --fx-glass-dark-strong: rgba(16, 17, 23, 0.74);
+  --fx-glass-dark-edge: rgba(255, 255, 255, 0.18);
+
+  --fx-blur-sm: blur(10px) saturate(1.2);
+  --fx-blur-md: blur(16px) saturate(1.35);
+  --fx-blur-lg: blur(26px) saturate(1.4);
+
+  --fx-shadow: 0 10px 30px -12px rgba(15, 16, 24, 0.28), 0 2px 6px rgba(15, 16, 24, 0.06);
+  --fx-shadow-lift: 0 22px 44px -16px rgba(15, 16, 24, 0.34), 0 4px 10px rgba(15, 16, 24, 0.08);
+
+  --fx-ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+}
+
+/* Navegadores sin backdrop-filter: vidrio casi opaco para no perder legibilidad */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --fx-glass-light: rgba(255, 255, 255, 0.94);
+    --fx-glass-dark: rgba(14, 15, 20, 0.9);
+    --fx-glass-dark-strong: rgba(16, 17, 23, 0.94);
+  }
+}
+
+/* ---------- 2. Tipografía ---------- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4,
+.label,
+.btn,
+.filter-btn,
+.header__nav-link,
+.header__mobile-link,
+.header__brand-title,
+.header__brand-subtitle,
+.hero__label,
+.hero__brand-tag,
+.service-card__num,
+.service-card__cat-tag,
+.service-card__btn,
+.package-card__tag,
+.pkg-btn,
+.project-step__num,
+.contact__info-list strong,
+.contact__hours-title,
+.contact-channel__title,
+.contact-modal__tag,
+.footer__nav-title,
+.footer__brand-name,
+.footer__brand-sub,
+.testimonial-card cite strong,
+.portfolio__item-overlay span,
+.lightbox__close,
+.lightbox__prev,
+.lightbox__next {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.08;
+  letter-spacing: -0.012em;
+  text-wrap: balance;
+}
+
+.label,
+.hero__label,
+.hero__brand-tag,
+.footer__nav-title,
+.contact__hours-title {
+  letter-spacing: 0.14em;
+}
+
+.btn,
+.filter-btn,
+.header__nav-link {
+  letter-spacing: 0.04em;
+}
+
+.hero__desc {
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem);
+  line-height: 1.55;
+}
+
+.testimonial-card__text {
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+/* ---------- 3. Superficies de vidrio ---------- */
+.hero__badge,
+.btn--glass,
+.filter-btn,
+.portfolio__item-overlay span,
+.footer__social-link,
+.contact__info-icon,
+.service-card__icon-btn,
+.lightbox__close,
+.lightbox__prev,
+.lightbox__next {
+  -webkit-backdrop-filter: var(--fx-blur-sm);
+  backdrop-filter: var(--fx-blur-sm);
+}
+
+.header::before,
+.header__mobile-menu,
+.service-card,
+.package-card,
+.testimonial-card,
+.contact__info,
+.contact-channel {
+  -webkit-backdrop-filter: var(--fx-blur-md);
+  backdrop-filter: var(--fx-blur-md);
+}
+
+.contact-modal__overlay,
+.contact-modal__dialog,
+.lightbox {
+  -webkit-backdrop-filter: var(--fx-blur-lg);
+  backdrop-filter: var(--fx-blur-lg);
+}
+
+/* ---------- 4. Header: barra de vidrio ---------- */
+.header {
+  background: transparent;
+  isolation: isolate;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: 0 8px 28px -14px rgba(15, 16, 24, 0.25);
+}
+
+.header__brand-title {
+  color: var(--fx-ink);
+}
+
+.header__brand-subtitle {
+  color: var(--fx-ink-soft);
+}
+
+.header__menu-bar {
+  background-color: var(--fx-ink);
+}
+
+.header__nav-link,
+.header__mobile-link {
+  color: var(--fx-ink);
+  transition: color 0.3s var(--fx-ease), background-size 0.45s var(--fx-ease);
+}
+
+.header__nav-link {
+  padding-block: 0.35em;
+  background: linear-gradient(var(--red), var(--red)) left bottom / 0% 2px no-repeat;
+}
+
+.header__nav-link:hover,
+.header__nav-link:is(.active, .is-active, [aria-current='true'], [aria-current='page']) {
+  color: var(--fx-ink);
+  background-size: 100% 2px;
+}
+
+.header__mobile-link:hover {
+  color: var(--red);
+}
+
+.header__mobile-menu {
+  background: var(--fx-glass-light);
+  border-top: 1px solid var(--fx-glass-light-edge);
+}
+
+/* ---------- 5. Hero ---------- */
+@keyframes fx-rise {
+  from {
+    opacity: 0;
+    translate: 0 22px;
+  }
+}
+
+@keyframes fx-settle {
+  from {
+    transform: scale(1.08);
+  }
+}
+
+.hero__bg {
+  overflow: hidden;
+}
+
+.hero__img {
+  animation: fx-settle 2.4s var(--fx-ease) backwards;
+}
+
+.hero__content>* {
+  animation: fx-rise 1s var(--fx-ease) backwards;
+}
+
+.hero__content> :nth-child(1) {
+  animation-delay: 0.15s;
+}
+
+.hero__content> :nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.hero__content> :nth-child(3) {
+  animation-delay: 0.45s;
+}
+
+.hero__content> :nth-child(4) {
+  animation-delay: 0.6s;
+}
+
+.hero__content> :nth-child(5) {
+  animation-delay: 0.75s;
+}
+
+.hero__content> :nth-child(6) {
+  animation-delay: 0.9s;
+}
+
+.hero__badge {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
+
+.btn--glass {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  color: #fff;
+}
+
+.btn--glass:hover {
+  background: rgba(255, 255, 255, 0.26);
+}
+
+/* ---------- 6. Botones ---------- */
+.btn,
+.filter-btn {
+  transition: transform 0.4s var(--fx-ease), background-color 0.35s var(--fx-ease),
+    color 0.35s var(--fx-ease), border-color 0.35s var(--fx-ease), box-shadow 0.4s var(--fx-ease);
+}
+
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--fx-shadow);
+  }
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ---------- 7. Secciones claras ---------- */
+:is(.services, .testimonials) {
+  background-image:
+    radial-gradient(40rem 28rem at 6% 10%, color-mix(in srgb, var(--blue) 16%, transparent), transparent 70%),
+    radial-gradient(34rem 26rem at 98% 62%, color-mix(in srgb, var(--red) 13%, transparent), transparent 70%),
+    radial-gradient(28rem 22rem at 52% 102%, color-mix(in srgb, var(--yellow) 20%, transparent), transparent 70%);
+}
+
+.packages {
+  background-image:
+    radial-gradient(38rem 28rem at 94% 8%, color-mix(in srgb, var(--yellow) 20%, transparent), transparent 70%),
+    radial-gradient(34rem 26rem at 2% 58%, color-mix(in srgb, var(--red) 13%, transparent), transparent 70%),
+    radial-gradient(30rem 24rem at 60% 102%, color-mix(in srgb, var(--blue) 16%, transparent), transparent 70%);
+}
+
+/* ---------- 8. Tarjetas de vidrio ---------- */
+.service-card,
+.package-card,
+.testimonial-card {
+  background: var(--fx-glass-light);
+  border: 1px solid var(--fx-glass-light-edge);
+  box-shadow: var(--fx-shadow);
+  color: var(--fx-ink);
+  transition:
+    opacity 0.9s var(--fx-ease), transform 0.9s var(--fx-ease),
+    translate 0.5s var(--fx-ease), box-shadow 0.5s var(--fx-ease);
+}
+
+:is(.services__grid, .packages__grid, .testimonials__grid)>* {
+  transition-delay: calc(var(--fx-i, 0) * 90ms), calc(var(--fx-i, 0) * 90ms), 0s, 0s;
+}
+
+:is(.services__grid, .packages__grid, .testimonials__grid)> :nth-child(3n + 2) {
+  --fx-i: 1;
+}
+
+:is(.services__grid, .packages__grid, .testimonials__grid)> :nth-child(3n + 3) {
+  --fx-i: 2;
+}
+
+@media (hover: hover) {
+
+  .service-card:hover,
+  .package-card:hover,
+  .testimonial-card:hover {
+    translate: 0 -5px;
+    box-shadow: var(--fx-shadow-lift);
+  }
+}
+
+.service-card__list li,
+.package-card__list li,
+.testimonial-card__text {
+  color: var(--fx-ink-soft);
+}
+
+.service-card__img-wrap {
+  overflow: hidden;
+}
+
+.service-card__img {
+  transition: transform 1.2s var(--fx-ease);
+}
+
+.service-card:hover .service-card__img {
+  transform: scale(1.06);
+}
+
+.service-card__icon-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+  transition: scale 0.4s var(--fx-ease), background-color 0.35s var(--fx-ease);
+}
+
+.service-card__icon-btn:hover {
+  scale: 1.08;
+  background: rgba(255, 255, 255, 0.34);
+}
+
+/* ---------- 9. Portafolio y visor ---------- */
+.filter-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #fff;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.filter-btn.active {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: transparent;
+  color: var(--fx-ink);
+}
+
+.portfolio__item {
+  overflow: hidden;
+}
+
+.portfolio__item img {
+  transition: transform 1.2s var(--fx-ease);
+}
+
+.portfolio__item:is(:hover, :focus-visible) img {
+  transform: scale(1.06);
+}
+
+.portfolio__item-overlay {
+  background: linear-gradient(to top, rgba(10, 11, 16, 0.72), transparent 58%);
+  opacity: 0;
+  transition: opacity 0.5s var(--fx-ease);
+}
+
+.portfolio__item:is(:hover, :focus-visible, :focus-within) .portfolio__item-overlay {
+  opacity: 1;
+}
+
+.portfolio__item-overlay span {
+  display: inline-block;
+  padding: 0.3em 0.85em;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  color: #fff;
+}
+
+.lightbox {
+  background: rgba(8, 9, 13, 0.68);
+}
+
+.lightbox__close,
+.lightbox__prev,
+.lightbox__next {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: #fff;
+  transition: background-color 0.3s var(--fx-ease), scale 0.35s var(--fx-ease);
+}
+
+.lightbox__close:hover,
+.lightbox__prev:hover,
+.lightbox__next:hover {
+  background: rgba(255, 255, 255, 0.26);
+  scale: 1.08;
+}
+
+/* ---------- 10. Contacto ---------- */
+.contact__info {
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  background: var(--fx-glass-dark);
+  border: 1px solid var(--fx-glass-dark-edge);
+  box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.55);
+  color: #fff;
+}
+
+.contact__info strong,
+.contact__info p,
+.contact__info-list a {
+  color: #fff;
+}
+
+.contact__info-list a {
+  transition: opacity 0.3s var(--fx-ease);
+}
+
+.contact__info-list a:hover {
+  opacity: 0.75;
+}
+
+.contact__info-icon {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+/* ---------- 11. Modal de contacto ---------- */
+@keyframes fx-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fx-dialog-in {
+  from {
+    opacity: 0;
+    translate: 0 18px;
+    scale: 0.97;
+  }
+}
+
+.contact-modal__overlay {
+  background: rgba(9, 10, 15, 0.5);
+}
+
+.contact-modal__dialog {
+  background: var(--fx-glass-dark-strong);
+  border: 1px solid var(--fx-glass-dark-edge);
+  box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6);
+  color: #fff;
+}
+
+.contact-modal:is(.is-open, .open, .active, [aria-hidden='false']) .contact-modal__overlay {
+  animation: fx-fade 0.4s ease backwards;
+}
+
+.contact-modal:is(.is-open, .open, .active, [aria-hidden='false']) .contact-modal__dialog {
+  animation: fx-dialog-in 0.55s var(--fx-ease) backwards;
+}
+
+.contact-modal__title,
+.contact-channel__title {
+  color: #fff;
+}
+
+.contact-modal__subtitle,
+.contact-channel__desc {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.contact-modal__tag {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.contact-modal__close {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: rotate 0.45s var(--fx-ease), background-color 0.3s var(--fx-ease);
+}
+
+.contact-modal__close:hover {
+  rotate: 90deg;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.contact-channel {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #fff;
+  transition: background-color 0.35s var(--fx-ease), border-color 0.35s var(--fx-ease), translate 0.45s var(--fx-ease);
+}
+
+.contact-channel__arrow {
+  display: inline-block;
+  transition: translate 0.45s var(--fx-ease);
+}
+
+.contact-channel:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.34);
+  translate: 0 -2px;
+}
+
+.contact-channel:hover .contact-channel__arrow {
+  translate: 5px 0;
+}
+
+/* ---------- 12. Footer ---------- */
+.footer__social-link {
+  background: color-mix(in srgb, currentColor 8%, transparent);
+  border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  transition: translate 0.4s var(--fx-ease), background-color 0.3s var(--fx-ease);
+}
+
+.footer__social-link:hover {
+  translate: 0 -3px;
+  background: color-mix(in srgb, currentColor 18%, transparent);
+}
+
+.footer__nav a {
+  display: inline-block;
+  transition: translate 0.35s var(--fx-ease), color 0.3s var(--fx-ease);
+}
+
+.footer__nav a:hover {
+  translate: 4px 0;
+}
+
+/* ---------- 13. Accesibilidad ---------- */
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}
