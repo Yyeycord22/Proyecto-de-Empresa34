@@ -1,0 +1,34 @@
+---
+// src/components/Testimonials.astro
+import { testimonials } from '../data/testimonials';
+---
+
+<section class="testimonials" id="testimonios" aria-labelledby="testimonials-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="label">TESTIMONIOS</span>
+      <h2 class="section-head__title" id="testimonials-title">Lo que dicen nuestros clientes.</h2>
+    </div>
+
+    <div class="testimonials__grid">
+      {testimonials.map((testi) => (
+        <blockquote class="testimonial-card reveal" aria-labelledby={`testi-${testi.id}-author`}>
+          <div class="testimonial-card__quote" style={`color:${testi.quoteColor}`}>“</div>
+          <p class="testimonial-card__text">{testi.text}</p>
+          <footer class="testimonial-card__footer">
+            <div class="testimonial-card__dot" style={`background:${testi.dotColor}`}></div>
+            <cite id={`testi-${testi.id}-author`}>
+              <strong>{testi.authorName}</strong>
+              <br />
+              <span>{testi.authorLocation}</span>
+            </cite>
+          </footer>
+        </blockquote>
+      ))}
+    </div>
+
+    <p class="testimonials__disclaimer">
+      * Los testimonios mostrados son representativos. Se publicarán reseñas reales verificadas con autorización de cada cliente.
+    </p>
+  </div>
+</section>

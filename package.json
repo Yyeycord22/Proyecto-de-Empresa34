@@ -1,0 +1,11 @@
+{
+  "name": "proyecto-empresa",
+  "version": "1.0.0",
+  "private": true,
+  "description": "HAUS COMMUNITY FOTOGRAFÍA",
+  "scripts": {
+    "dev": "npm --prefix haus-astro run dev",
+    "build": "npm --prefix haus-astro run build",
+    "preview": "npm --prefix haus-astro run preview"
+  }
+}

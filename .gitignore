@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+haus-astro/node_modules/
+
+# Build outputs
+dist/
+haus-astro/dist/
+haus-astro/.astro/
+
+# Environment variables
+.env
+.env.*
+haus-astro/.env
+haus-astro/.env.production
+
+# Backups and Git internal
+haus-astro/.git_backup/
+*.backup
+*.bak
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.idea/

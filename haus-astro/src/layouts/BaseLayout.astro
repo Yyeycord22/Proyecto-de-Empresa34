@@ -1,0 +1,415 @@
+---
+// src/layouts/BaseLayout.astro
+import '../styles/global.css';
+import ContactModal from '../components/ContactModal.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'HAUS COMMUNITY FOTOGRAFÍA — Momentos únicos, proyectos para siempre',
+  description = 'Fotografía profesional, producción audiovisual y creación de contenido para negocios en Mindo y Los Bancos. Hoteles, gimnasios, retratos, dron.',
+} = Astro.props;
+
+const githubRepoUrl = 'https://github.com/Yyeycord22/Proyecto-de-Empresa34';
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  
+  <!-- Metadatos de Redes y Repositorio Oficial -->
+  <meta property="og:title" content="HAUS COMMUNITY FOTOGRAFÍA" />
+  <meta property="og:description" content="Creamos contenido visual personalizado para tu marca, negocio e historias." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={githubRepoUrl} />
+  <meta property="og:image" content="/imagenes/592403512_18033143426770155_1529202580814031402_n.jpg" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href={githubRepoUrl} />
+
+  <!-- Tipografía Oficial: Space Grotesk & DM Serif Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Contenido principal -->
+  <slot />
+
+  <!-- Modal Interactivo de Canales de Contacto (WhatsApp, Instagram, Teléfono) -->
+  <ContactModal />
+
+  <script>
+    /* ============================================================
+       SINCRONIZACIÓN CON BASE DE DATOS SUPABASE (PERSISTENCIA REAL)
+       ============================================================ */
+    import {
+      getCategories,
+      getPortfolio,
+      getSettings,
+      type Category,
+      type PortfolioItem
+    } from '../lib/supabase';
+
+    // Sincronizar Canales de Contacto desde la Base de Datos
+    async function syncContactInfo() {
+      try {
+        const cfg = await getSettings();
+        const wa = (cfg.whatsapp || '593960447114').replace(/\D/g, '');
+        const phone = cfg.phone || '+593 96 044 7114';
+        const insta = cfg.instagram || 'https://www.instagram.com/haus_cm';
+        const address = cfg.address || 'Mindo, Los Bancos — Pichincha, Ecuador';
+        const hours = cfg.hours || 'Lunes a Viernes: 08:00 - 18:00 | Sábados: 08:00 - 14:00';
+
+        // --- Actualizar todos los enlaces de WhatsApp (selector genérico) ---
+        document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"], a[href*="whatsapp.com"]').forEach(link => {
+          const href = (link as HTMLAnchorElement).href;
+          try {
+            const urlObj = new URL(href);
+            const textParam = urlObj.searchParams.get('text');
+            (link as HTMLAnchorElement).href = textParam
+              ? `https://wa.me/${wa}?text=${encodeURIComponent(textParam)}`
+              : `https://wa.me/${wa}`;
+          } catch {
+            (link as HTMLAnchorElement).href = `https://wa.me/${wa}`;
+          }
+        });
+
+        // --- Actualizar enlace de WhatsApp específico en la sección Contacto ---
+        const contactWaBtn = document.getElementById('contact-wa-btn') as HTMLAnchorElement | null;
+        if (contactWaBtn) {
+          const contactMsg = encodeURIComponent('Hola, vi su página web y quisiera información sobre sus servicios. Tengo una idea para mi negocio y me gustaría recibir asesoramiento y una cotización.');
+          contactWaBtn.href = `https://wa.me/${wa}?text=${contactMsg}`;
+        }
+        const contactWaLink = document.getElementById('contact-whatsapp-link') as HTMLAnchorElement | null;
+        if (contactWaLink) {
+          contactWaLink.href = `https://wa.me/${wa}`;
+        }
+
+        // --- Actualizar enlace de WhatsApp en el Modal de Contacto ---
+        const channelWa = document.getElementById('channel-whatsapp') as HTMLAnchorElement | null;
+        if (channelWa) {
+          const modalMsg = encodeURIComponent('Hola, vi su página web y quisiera recibir asesoramiento y cotización para un proyecto.');
+          channelWa.href = `https://wa.me/${wa}?text=${modalMsg}`;
+        }
+
+        // --- Actualizar todos los enlaces de Instagram (selector genérico) ---
+        document.querySelectorAll('a[href*="instagram.com"]').forEach(link => {
+          (link as HTMLAnchorElement).href = insta;
+        });
+
+        // --- Actualizar texto visible de Instagram en sección Contacto ---
+        const igText = document.getElementById('contact-instagram-text');
+        if (igText) {
+          // Extraer @handle de la URL
+          const handle = insta.replace(/\/$/, '').split('/').pop() || '';
+          igText.textContent = handle ? `@${handle}` : insta;
+        }
+
+        // --- Actualizar enlaces telefónicos ---
+        document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+          (link as HTMLAnchorElement).href = `tel:${phone.replace(/\s+/g, '')}`;
+        });
+
+        // --- Actualizar dirección en sección Contacto ---
+        const addressEl = document.getElementById('contact-address-text');
+        if (addressEl) addressEl.textContent = address;
+
+        // --- Actualizar horario en sección Contacto ---
+        const hoursEl = document.getElementById('contact-hours-text');
+        if (hoursEl) {
+          // Parsear "Lunes a Viernes: 08:00 - 18:00 | Sábados: 08:00 - 14:00"
+          const parts = hours.split('|');
+          hoursEl.textContent = (parts[0] || hours).trim();
+          const satEl = document.getElementById('contact-hours-saturday');
+          if (satEl && parts[1]) satEl.textContent = parts[1].trim();
+        }
+      } catch (err) {
+        console.warn('[Supabase Sync Contact Info]:', err);
+      }
+    }
+
+    // Sincronizar Portafolio y Categorías en Vivo desde Supabase
+    async function syncPortfolioGrid() {
+      const grid = document.getElementById('portfolio-grid');
+      const filtersContainer = document.getElementById('portfolio-filters');
+      if (!grid) return;
+
+      try {
+        const [dbCats, dbItems] = await Promise.all([
+          getCategories(),
+          getPortfolio()
+        ]);
+
+        const activeCategories = [
+          { key: 'all', label: 'Todos' },
+          ...dbCats.map(c => ({ key: c.key, label: c.label }))
+        ];
+
+        // Re-renderizar filtros con los datos de Supabase
+        if (filtersContainer) {
+          filtersContainer.innerHTML = '';
+          activeCategories.forEach((filter, idx) => {
+            const btn = document.createElement('button');
+            btn.className = `filter-btn ${idx === 0 ? 'active' : ''}`;
+            btn.dataset.filter = filter.key;
+            btn.id = `filter-${filter.key}`;
+            btn.textContent = filter.label;
+            btn.addEventListener('click', () => {
+              document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              filterPortfolio(filter.key);
+            });
+            filtersContainer.appendChild(btn);
+          });
+        }
+
+        // Re-renderizar elementos de la cuadrícula con los datos de Supabase
+        grid.innerHTML = '';
+        if (dbItems.length === 0) {
+          const emptyDiv = document.createElement('div');
+          emptyDiv.style.gridColumn = '1 / -1';
+          emptyDiv.style.textAlign = 'center';
+          emptyDiv.style.padding = '4rem 1.5rem';
+          emptyDiv.style.color = 'var(--color-gray-medium)';
+          emptyDiv.innerHTML = '<p style="font-size: 1.1rem; letter-spacing: 0.05em; text-transform: uppercase;">Próximamente nuevas fotografías en nuestro portafolio.</p>';
+          grid.appendChild(emptyDiv);
+        } else {
+          dbItems.forEach((item: PortfolioItem) => {
+            const div = document.createElement('div');
+            div.className = `portfolio__item ${item.sizeClass || ''}`;
+            div.dataset.category = item.category;
+            div.dataset.img = item.image;
+            div.dataset.alt = item.alt;
+            div.tabIndex = 0;
+            div.role = 'button';
+            div.setAttribute('aria-label', `Ver fotografía: ${item.alt}`);
+
+            div.innerHTML = `
+              <img src="${item.image}" alt="${item.alt}" loading="lazy" />
+              <div class="portfolio__item-overlay">
+                <span>${item.categoryLabel || item.category}</span>
+              </div>
+            `;
+
+            // Eventos para el Lightbox
+            div.addEventListener('click', () => openLightboxForItem(div));
+            div.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openLightboxForItem(div);
+              }
+            });
+
+            grid.appendChild(div);
+          });
+        }
+      } catch (err) {
+        console.warn('[Supabase Sync Portfolio Grid]:', err);
+      }
+    }
+
+    // Filtrar elementos del portafolio
+    function filterPortfolio(filterKey: string) {
+      const items = document.querySelectorAll('.portfolio__item');
+      items.forEach(item => {
+        const match = filterKey === 'all' || (item as HTMLElement).dataset.category === filterKey;
+        item.classList.toggle('hidden', !match);
+      });
+    }
+
+    /* ---- LIGHTBOX DE IMÁGENES ---- */
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const lbCaption = document.getElementById('lightbox-caption');
+    const lbClose = document.getElementById('lightbox-close');
+    const lbPrev = document.getElementById('lightbox-prev');
+    const lbNext = document.getElementById('lightbox-next');
+
+    let visibleItems: HTMLElement[] = [];
+    let currentIdx = 0;
+
+    function getVisibleItems(): HTMLElement[] {
+      return Array.from(document.querySelectorAll('.portfolio__item'))
+        .filter(item => !item.classList.contains('hidden')) as HTMLElement[];
+    }
+
+    function showSlide(idx: number) {
+      visibleItems = getVisibleItems();
+      const item = visibleItems[idx];
+      if (!item || !lbImg || !lbCaption) return;
+      lbImg.src = item.dataset.img || '';
+      lbImg.alt = item.dataset.alt || '';
+      lbCaption.textContent = item.dataset.alt || '';
+    }
+
+    function openLightboxForItem(item: HTMLElement) {
+      visibleItems = getVisibleItems();
+      const visIdx = visibleItems.indexOf(item);
+      currentIdx = visIdx > -1 ? visIdx : 0;
+      showSlide(currentIdx);
+      lightbox?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      lbClose?.focus();
+    }
+
+    function closeLightbox() {
+      lightbox?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    lbClose?.addEventListener('click', closeLightbox);
+    lbPrev?.addEventListener('click', () => {
+      visibleItems = getVisibleItems();
+      if (visibleItems.length === 0) return;
+      currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
+      showSlide(currentIdx);
+    });
+    lbNext?.addEventListener('click', () => {
+      visibleItems = getVisibleItems();
+      if (visibleItems.length === 0) return;
+      currentIdx = (currentIdx + 1) % visibleItems.length;
+      showSlide(currentIdx);
+    });
+
+    lightbox?.addEventListener('click', (e) => {
+      if (e.target === lightbox) closeLightbox();
+    });
+
+    /* ---- HEADER SCROLL Y ACTIVE NAV ---- */
+    const header = document.getElementById('header');
+    const navLinks = document.querySelectorAll('.header__nav-link');
+    const sections = document.querySelectorAll('main section[id]');
+
+    function updateActiveNav() {
+      let current = '';
+      sections.forEach(sec => {
+        if (window.scrollY >= (sec as HTMLElement).offsetTop - 120) current = sec.id;
+      });
+      navLinks.forEach(a => {
+        a.classList.toggle('active', (a as HTMLElement).dataset.section === current);
+      });
+    }
+
+    window.addEventListener('scroll', () => {
+      header?.classList.toggle('scrolled', window.scrollY > 30);
+      updateActiveNav();
+    }, { passive: true });
+
+    /* ---- MOBILE MENU ---- */
+    const menuBtn = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.header__mobile-link');
+
+    menuBtn?.addEventListener('click', () => {
+      const open = mobileMenu?.classList.toggle('open');
+      menuBtn.classList.toggle('open', !!open);
+      menuBtn.setAttribute('aria-expanded', String(!!open));
+      mobileMenu?.setAttribute('aria-hidden', String(!open));
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu?.classList.remove('open');
+        menuBtn?.classList.remove('open');
+        menuBtn?.setAttribute('aria-expanded', 'false');
+        mobileMenu?.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      });
+    });
+
+    /* ---- MODAL DE CONTACTO ---- */
+    const contactModal = document.getElementById('contact-modal');
+    const contactModalClose = document.getElementById('contact-modal-close');
+    const contactModalOverlay = document.getElementById('contact-modal-overlay');
+    const openContactBtns = document.querySelectorAll('.open-contact-modal-btn');
+
+    function openContactModal() {
+      contactModal?.classList.add('open');
+      contactModal?.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      if (mobileMenu?.classList.contains('open')) {
+        mobileMenu.classList.remove('open');
+        menuBtn?.classList.remove('open');
+        menuBtn?.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    function closeContactModal() {
+      contactModal?.classList.remove('open');
+      contactModal?.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    openContactBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        openContactModal();
+      });
+    });
+
+    contactModalClose?.addEventListener('click', closeContactModal);
+    contactModalOverlay?.addEventListener('click', closeContactModal);
+
+    /* ---- REVEAL ANIMATIONS ---- */
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    /* ---- NAVEGACIÓN CON TECLADO ---- */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (contactModal?.classList.contains('open')) closeContactModal();
+        if (lightbox?.getAttribute('aria-hidden') === 'false') closeLightbox();
+      }
+      if (lightbox?.getAttribute('aria-hidden') === 'false') {
+        if (e.key === 'ArrowLeft') {
+          visibleItems = getVisibleItems();
+          if (visibleItems.length === 0) return;
+          currentIdx = (currentIdx - 1 + visibleItems.length) % visibleItems.length;
+          showSlide(currentIdx);
+        }
+        if (e.key === 'ArrowRight') {
+          visibleItems = getVisibleItems();
+          if (visibleItems.length === 0) return;
+          currentIdx = (currentIdx + 1) % visibleItems.length;
+          showSlide(currentIdx);
+        }
+      }
+    });
+
+    /* ---- DESPLAZAMIENTO SUAVE ---- */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = (anchor as HTMLAnchorElement).getAttribute('href');
+        if (href && href.startsWith('#')) {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            const top = target.getBoundingClientRect().top + window.scrollY - 72;
+            window.scrollTo({ top, behavior: 'smooth' });
+          }
+        }
+      });
+    });
+
+    // Ejecutar inicializaciones y sincronizaciones dinámicas
+    syncContactInfo();
+    syncPortfolioGrid();
+    updateActiveNav();
+  </script>
+</body>
+</html>
