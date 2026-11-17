@@ -427,7 +427,8 @@
   const contactForm = document.getElementById('contact-settings-form');
   contactForm?.addEventListener('submit', function (e) {
     e.preventDefault();
-    const wa = document.getElementById('cfg-whatsapp')?.value.trim();
+    const rawWa = document.getElementById('cfg-whatsapp')?.value || '';
+    const wa = rawWa.trim().replace(/\D/g, '');
     const phone = document.getElementById('cfg-phone')?.value.trim();
     const insta = document.getElementById('cfg-instagram')?.value.trim();
 
